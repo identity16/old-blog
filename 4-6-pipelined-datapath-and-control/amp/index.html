@@ -1,0 +1,158 @@
+﻿
+<head>
+    <meta charset="utf-8">
+
+    <title>4.6 Pipelined Datapath and Control</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <link rel="shortcut icon" href="../../favicon.png" type="image/png">
+    <link rel="canonical" href="../index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="Identity16">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="4.6 Pipelined Datapath and Control">
+    <meta property="og:description" content="Pipelined Datapath and Control   여기서는 4.4장에서 완성했던 기존의 Single-Cycle Datapath를 Pipelined Datapath로 바꾸는 과정을 살펴볼 예정이다. 우선 회로를 아래 다섯 단계로 나누어 표시해보자. IF(Instruction Fetch) ID(Instruction Decode, Register File Read) EX(Execute, Address Calculation) MEM(Memory Access) WB(Write Back)   위 이미지 (강의 교재 figure 4.33)">
+    <meta property="og:url" content="http://identity16.github.io/4-6-pipelined-datapath-and-control/">
+    <meta property="og:image" content="http://identity16.github.io/content/images/2019/01/water-pipe-51758_1280.jpg">
+    <meta property="article:published_time" content="2018-12-12T08:52:00.000Z">
+    <meta property="article:modified_time" content="2019-01-10T10:50:31.000Z">
+    <meta property="article:tag" content="computer-architecture">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="4.6 Pipelined Datapath and Control">
+    <meta name="twitter:description" content="Pipelined Datapath and Control   여기서는 4.4장에서 완성했던 기존의 Single-Cycle Datapath를 Pipelined Datapath로 바꾸는 과정을 살펴볼 예정이다. 우선 회로를 아래 다섯 단계로 나누어 표시해보자. IF(Instruction Fetch) ID(Instruction Decode, Register File Read) EX(Execute, Address Calculation) MEM(Memory Access) WB(Write Back)   위 이미지 (강의 교재 figure 4.33)">
+    <meta name="twitter:url" content="http://identity16.github.io/4-6-pipelined-datapath-and-control/">
+    <meta name="twitter:image" content="http://identity16.github.io/content/images/2019/01/water-pipe-51758_1280.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Wonjun Shin">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="computer-architecture">
+    <meta name="twitter:site" content="@tryghost">
+    <meta property="og:image:width" content="960">
+    <meta property="og:image:height" content="1280">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Identity16",
+        "logo": "http://identity16.github.io/content/images/2019/01/identity16-logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Wonjun Shin",
+        "url": "http://identity16.github.io/author/wonjun/",
+        "sameAs": [
+            "https://identity16.github.io"
+        ]
+    },
+    "headline": "4.6 Pipelined Datapath and Control",
+    "url": "http://identity16.github.io/4-6-pipelined-datapath-and-control/",
+    "datePublished": "2018-12-12T08:52:00.000Z",
+    "dateModified": "2019-01-10T10:50:31.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://identity16.github.io/content/images/2019/01/water-pipe-51758_1280.jpg",
+        "width": 960,
+        "height": 1280
+    },
+    "keywords": "computer-architecture",
+    "description": "Pipelined Datapath and Control   여기서는 4.4장에서 완성했던 기존의 Single-Cycle Datapath를 Pipelined Datapath로 바꾸는 과정을 살펴볼 예정이다. 우선 회로를 아래 다섯 단계로 나누어 표시해보자. IF(Instruction Fetch) ID(Instruction Decode, Register File Read) EX(Execute, Address Calculation) MEM(Memory Access) WB(Write Back)   위 이미지 (강의 교재 figure 4.33)",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://identity16.github.io/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.9">
+    <link rel="alternate" type="application/rss+xml" title="Identity16" href="../../rss/index.html">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,600,400">
+    <style amp-custom>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{margin:0.67em 0;font-size:2em}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{position:relative;vertical-align:baseline;font-size:75%;line-height:0}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}amp-img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{margin:0 2px;padding:0.35em 0.625em 0.75em;border:1px solid #c0c0c0}legend{padding:0;border:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}html{max-height:100%;height:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0)}body{max-height:100%;height:100%;color:#3a4145;background:#f4f8fb;letter-spacing:0.01rem;font-family:"Merriweather", serif;font-size:1.8rem;line-height:1.75em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"kern" 1;-moz-font-feature-settings:"kern" 1;-o-font-feature-settings:"kern" 1}::-moz-selection{background:#d6edff}::selection{background:#d6edff}h1,h2,h3,h4,h5,h6{margin:0 0 0.3em 0;color:#2e2e2e;font-family:"Open Sans", sans-serif;line-height:1.15em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-moz-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-o-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1}h1{text-indent:-2px;letter-spacing:-1px;font-size:2.6rem}h2{letter-spacing:0;font-size:2.4rem}h3{letter-spacing:-0.6px;font-size:2.1rem}h4{font-size:1.9rem}h5{font-size:1.8rem}h6{font-size:1.8rem}a{color:#4a4a4a}a:hover{color:#111}p,ul,ol,dl{margin:0 0 2.5rem 0;font-size:1.5rem;text-rendering:geometricPrecision;-webkit-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-moz-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-o-font-feature-settings:"liga" 1, "onum" 1, "kern" 1}ol,ul{padding-left:2em}ol ol,ul ul,ul ol,ol ul{margin:0 0 0.4em 0;padding-left:2em}dl dt{float:left;clear:left;overflow:hidden;margin-bottom:1em;width:180px;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-bottom:1em;margin-left:200px}li{margin:0.4em 0}li li{margin:0}hr{display:block;margin:1.75em 0;padding:0;height:1px;border:0;border-top:#efefef 1px solid}blockquote{box-sizing:border-box;margin:1.75em 0 1.75em 0;padding:0 0 0 1.75em;border-left:#4a4a4a 0.4em solid;-moz-box-sizing:border-box}blockquote p{margin:0.8em 0;font-style:italic}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;color:#ccc;font-size:0.9em}blockquote small:before{content:"\2014 \00A0"}blockquote cite{font-weight:700}blockquote cite a{font-weight:normal}mark{background-color:#fdffb6}code,tt{padding:1px 3px;border:#e3edf3 1px solid;background:#f7fafb;border-radius:2px;white-space:pre-wrap;font-family:Inconsolata, monospace, sans-serif;font-size:0.85em;font-feature-settings:"liga" 0;-webkit-font-feature-settings:"liga" 0;-moz-font-feature-settings:"liga" 0}pre{overflow:auto;box-sizing:border-box;margin:0 0 1.75em 0;padding:10px;width:100%;border:#e3edf3 1px solid;background:#f7fafb;border-radius:3px;white-space:pre;font-family:Inconsolata, monospace, sans-serif;font-size:0.9em;-moz-box-sizing:border-box}pre code,pre tt{padding:0;border:none;background:transparent;white-space:pre-wrap;font-size:inherit}kbd{display:inline-block;margin-bottom:0.4em;padding:1px 8px;border:#ccc 1px solid;background:#f4f4f4;border-radius:4px;box-shadow:0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 #fff inset;color:#666;text-shadow:#fff 0 1px 0;font-size:0.9em;font-weight:700}table{box-sizing:border-box;margin:1.75em 0;max-width:100%;width:100%;background-color:transparent;-moz-box-sizing:border-box}table th,table td{padding:8px;border-top:#efefef 1px solid;vertical-align:top;text-align:left;line-height:20px}table th{color:#000}table caption + thead tr:first-child th,table caption + thead tr:first-child td,table colgroup + thead tr:first-child th,table colgroup + thead tr:first-child td,table thead:first-child tr:first-child th,table thead:first-child tr:first-child td{border-top:0}table tbody + tbody{border-top:#efefef 2px solid}table table table{background-color:#fff}table tbody > tr:nth-child(odd) > td,table tbody > tr:nth-child(odd) > th{background-color:#f6f6f6}table.plain tbody > tr:nth-child(odd) > td,table.plain tbody > tr:nth-child(odd) > th{background:transparent}iframe,amp-iframe,.fluid-width-video-wrapper{display:block;margin:1.75em 0}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper amp-iframe{margin:0}textarea,select,input{margin:0 0 5px 0;padding:6px 9px;width:260px;outline:0;border:#e7eef2 1px solid;background:#fff;border-radius:4px;box-shadow:none;font-family:"Open Sans", sans-serif;font-size:1.6rem;line-height:1.4em;font-weight:100;-webkit-appearance:none}textarea{min-width:250px;min-height:80px;max-width:340px;width:100%;height:auto}input[type="text"]:focus,input[type="email"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="week"]:focus,input[type="time"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,textarea:focus{outline:none;outline-width:0;border:#bbc7cc 1px solid;background:#fff}select{width:270px;height:30px;line-height:30px}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.main-header{position:relative;display:table;overflow:hidden;box-sizing:border-box;width:100%;height:50px;background:#5ba4e5 no-repeat center center;background-size:cover;text-align:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box}.content{background:#fff;padding-top:15px}.blog-title,.content{margin:auto;max-width:600px}.blog-title a{display:block;padding-right:16px;padding-left:16px;height:50px;color:#fff;text-decoration:none;font-family:"Open Sans", sans-serif;font-size:16px;line-height:50px;font-weight:600}.post{position:relative;margin-top:0;margin-right:16px;margin-left:16px;padding-bottom:0;max-width:100%;border-bottom:#ebf2f6 1px solid;word-wrap:break-word;font-size:0.95em;line-height:1.65em}.post-header{margin-bottom:1rem}.post-title{margin-bottom:0}.post-title a{text-decoration:none}.post-meta{display:block;margin:3px 0 0 0;color:#9eabb3;font-family:"Open Sans", sans-serif;font-size:1.3rem;line-height:2.2rem}.post-meta a{color:#9eabb3;text-decoration:none}.post-meta a:hover{text-decoration:underline}.post-meta .author{margin:0;font-size:1.3rem;line-height:1.3em}.post-date{display:inline-block;text-transform:uppercase;white-space:nowrap;font-size:1.2rem;line-height:1.2em}.post-image{margin:0;padding-top:3rem;padding-bottom:30px;border-top:1px #E8E8E8 solid}.post-content amp-img,.post-content amp-anim{position:relative;left:50%;display:block;padding:0;min-width:0;max-width:112%;width:calc(100% + 32px);height:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%)}.footnotes{font-size:1.3rem;line-height:1.6em;font-style:italic}.footnotes li{margin:0.6rem 0}.footnotes p{margin:0}.footnotes p a:last-child{text-decoration:none}.site-footer{position:relative;margin:0 auto 20px auto;padding:1rem 15px;max-width:600px;color:rgba(0,0,0,0.5);font-family:"Open Sans", sans-serif;font-size:1.1rem;line-height:1.75em}.site-footer a{color:rgba(0,0,0,0.5);text-decoration:none;font-weight:bold}.site-footer a:hover{border-bottom:#bbc7cc 1px solid}.poweredby{display:block;float:right;width:45%;text-align:right}.copyright{display:block;float:left;width:45%}</style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    
+
+</head>
+
+<body class="amp-template">
+    <header class="main-header">
+        <nav class="blog-title">
+            <a href="../../">Identity16</a>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">4.6 Pipelined Datapath and Control</h1>
+                <section class="post-meta">
+                    <p class="author">by <a href="../../author/wonjun/">Wonjun Shin</a></p>
+                    <time class="post-date" datetime="2018-12-12">2018-12-12</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="http://identity16.github.io/content/images/2019/01/water-pipe-51758_1280.jpg" width="600" height="400" layout="responsive"></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <h1 id="pipelineddatapathandcontrol">Pipelined Datapath and Control</h1>
+<p>  여기서는 4.4장에서 완성했던 기존의 Single-Cycle Datapath를 Pipelined Datapath로 바꾸는 과정을 살펴볼 예정이다. 우선 회로를 아래 다섯 단계로 나누어 표시해보자.</p>
+<ul>
+<li><strong>IF</strong>(Instruction Fetch)</li>
+<li><strong>ID</strong>(Instruction Decode, Register File Read)</li>
+<li><strong>EX</strong>(Execute, Address Calculation)</li>
+<li><strong>MEM</strong>(Memory Access)</li>
+<li><strong>WB</strong>(Write Back)</li>
+</ul>
+<p></p>
+<p>  위 이미지 <em>(강의 교재 figure 4.33)</em> 과 같이 나눌 수 있는데, 여기서 파란색 선은 다른 단계로 데이터가 전달되는 상황임을 표시한 것이다. 위쪽 파란 선은 MEM에서 IF로, 아래쪽 파란 선은 WB에서 ID로 데이터가 전달되는 부분이다. WB -&gt; ID의 Right-to-Left 상황은 Data Hazard와 Control Hazard를 유발한다. 이것을 해결하는 방법은 둘째 치고, 각 단계에서 각기 다른 Instruction을 수행해야 하므로 단계마다 다른 데이터를 이용해 연산을 해야한다. 따라서 단계의 사이사이에 사용할 데이터를 저장하는 레지스터를 추가한다.</p>
+<p></p>
+<p>  추가된 레지스터의 이름은 양쪽의 두 단계의 이름을 합친 IF/ID, ID/EX, EX/MEM, MEM/WB이다. 이 레지스터들도 State Element이므로 각 클럭마다 상태가 업데이트 되어야 한다. 따라서 위 이미지 <em>(강의 교재 figure 4.35)</em> 의 회로에는 이 레지스터들과 PC에 Clock 입력이 있어야 한다.</p>
+<h2 id="representingpipelineoperation">Representing Pipeline Operation</h2>
+<p>  파이프라인의 상태를 표현할 때 우리는 다음 두 가지 방식을 사용할 것이다.</p>
+<ol>
+<li>
+<p>"Single-clock-cycle" pipeline diagram : 특정 사이클에서 사용되는 부분을 표시하고 단계 별로 어떤 Instruction을 실행하고 있는지 표시한 그림이다.</p>
+</li>
+<li>
+<p>"Multi-clock-cycle" pipeline diagram : 아래 이미지 <em>(강의 교재 figure 4.34)</em> 참고</p>
+</li>
+</ol>
+<p></p>
+<p>  이제 Load에 대한 Single-clock-cycle 다이어그램을 살펴보도록 하자. 전부 살펴보지는 않고 IF 단계와 WB 단계만 보고 넘어갈 예정이다.</p>
+<h3 id="ifforload">IF for Load</h3>
+<p>  제일 첫 번째 단계인 IF 단계의 다이어그램이다. 아래 이미지 <em>(강의 교재 figure 4.36)</em> 를 보고 Single-clock-cycle 다이어그램이 어떻게 생겼는지 살펴보길 바란다.</p>
+<p></p>
+<h3 id="wbforload">WB for Load</h3>
+<p>  이번에는 WB 단계인데, 우선 이미지 <em>(강의 교재 figure 4.38)</em> 부터 보자.</p>
+<p></p>
+<p>  다른 단계를 건너뛰고 바로 WB 단계를 소개하는 이유는 위 회로에서 오류가 하나 있기 때문이다. 그것은 바로 ID 단계의 Write Data로 값을 넘기는 부분인데, 이대로 회로를 사용한다면 넘어간 데이터가 쓰여질 레지스터는 ID 단계에서 실행 중인 Instruction의 Write Register이어서 엉뚱한 곳에 쓰이게 된다. 이를 해결하기 위해서는 WB 단계의 Instruction에서 사용하는 Write Register 넘버를 같이 넘겨줘야 한다. 그렇게 구성한 회로는 아래 이미지 <em>(강의 교재 figur 4.41)</em> 에 있다.</p>
+<p></p>
+<h2 id="pipelinedcontrol">Pipelined Control</h2>
+<p>  지금까지 작성한 회로는 동작 상으로는 문제가 없겠지만 뭔가 부족한 점이 하나 있다. 바로 Control의 부재이다. Control 신호도 앞선 데이터들과 마찬가지로 Instruction마다 다르기 때문에 단계가 넘어갈 때마다 레지스터에 저장해 주어야 한다. 그러나 모든 신호를 매번 다 저장하면 공간낭비이므로 단계별로 사용하는 신호를 나눈 다음, 더이상 필요없는 신호들은 다음 단계로 갈 때 저장하지 않도록 한다. 아래 표 <em>(강의 교재 figure 4.49)</em> 는 단계 별로 Control 신호를 나눈 것이다.</p>
+<p></p>
+<p>그리고 Control 신호를 저장할 레지스터를 덧붙인 상태의 회로는 아래 <em>(강의 교재 figure 4.51)</em> 와 같이 생겼다.</p>
+<p></p>
+<p>완성!은 아직 아니고 Hazard를 해결하는 걸 조금 더 해야한다. 그건 다음 포스팅에서 다룰 예정이다.</p>
+
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="../../">Identity16</a> © 2019</section>
+        <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+    </footer>
+</body>

@@ -1,0 +1,518 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>2.4 Expectation, Mean, and Variance &amp; 2.5 Joint PMFs of Multiple</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../assets/built/screen.css?v=96b63e0c50">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130578466-1"></script>
+    <script>
+        var host = window.location.hostname;
+        if(host !== "localhost")
+        {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-130578466-1');
+        }
+    </script>
+    <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6003792608716119",
+            enable_page_level_ads: true
+        });
+    </script>
+
+    <link rel="shortcut icon" href="../favicon.png" type="image/png">
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="amp/index.html">
+    
+    <meta property="og:site_name" content="Identity16">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="2.4 Expectation, Mean, and Variance &amp; 2.5 Joint PMFs of Multiple">
+    <meta property="og:description" content="Expectation, Mean, and Variance   여기서는 예전에 설명했던 Random Variable의 종류들에 대한 Expectation과 Variance가 어떻게 되는지만 간단하게 말해줄 것이다. 단, 증명은 단순히 전개하면 알 수 있으므로 생략한다. Expectations of Standard Random Variables Discrete Uniform on $ {a, a + 1, \dots, b} $ $ E[X] = \frac{a+b}{2} $ Bernoulli $ E[X] = (1-p)\cdot">
+    <meta property="og:url" content="http://identity16.github.io/2-4-expectation-mean-and-variance-2-5-joint-pmfs-of-multiple/">
+    <meta property="og:image" content="http://identity16.github.io/content/images/2019/01/bayesian-2889576_1280.png">
+    <meta property="article:published_time" content="2018-12-15T05:16:00.000Z">
+    <meta property="article:modified_time" content="2019-01-11T05:53:32.000Z">
+    <meta property="article:tag" content="probability-and-statistics">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="2.4 Expectation, Mean, and Variance &amp; 2.5 Joint PMFs of Multiple">
+    <meta name="twitter:description" content="Expectation, Mean, and Variance   여기서는 예전에 설명했던 Random Variable의 종류들에 대한 Expectation과 Variance가 어떻게 되는지만 간단하게 말해줄 것이다. 단, 증명은 단순히 전개하면 알 수 있으므로 생략한다. Expectations of Standard Random Variables Discrete Uniform on $ {a, a + 1, \dots, b} $ $ E[X] = \frac{a+b}{2} $ Bernoulli $ E[X] = (1-p)\cdot">
+    <meta name="twitter:url" content="http://identity16.github.io/2-4-expectation-mean-and-variance-2-5-joint-pmfs-of-multiple/">
+    <meta name="twitter:image" content="http://identity16.github.io/content/images/2019/01/bayesian-2889576_1280.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Wonjun Shin">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="probability-and-statistics">
+    <meta name="twitter:site" content="@tryghost">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="1280">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Identity16",
+        "logo": "http://identity16.github.io/content/images/2019/01/identity16-logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Wonjun Shin",
+        "url": "http://identity16.github.io/author/wonjun/",
+        "sameAs": [
+            "https://identity16.github.io"
+        ]
+    },
+    "headline": "2.4 Expectation, Mean, and Variance &amp; 2.5 Joint PMFs of Multiple",
+    "url": "http://identity16.github.io/2-4-expectation-mean-and-variance-2-5-joint-pmfs-of-multiple/",
+    "datePublished": "2018-12-15T05:16:00.000Z",
+    "dateModified": "2019-01-11T05:53:32.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://identity16.github.io/content/images/2019/01/bayesian-2889576_1280.png",
+        "width": 1280,
+        "height": 1280
+    },
+    "keywords": "probability-and-statistics",
+    "description": "Expectation, Mean, and Variance   여기서는 예전에 설명했던 Random Variable의 종류들에 대한 Expectation과 Variance가 어떻게 되는지만 간단하게 말해줄 것이다. 단, 증명은 단순히 전개하면 알 수 있으므로 생략한다. Expectations of Standard Random Variables Discrete Uniform on $ {a, a + 1, \\dots, b} $ $ E[X] &#x3D; \\frac{a+b}{2} $ Bernoulli $ E[X] &#x3D; (1-p)\\cdot",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://identity16.github.io/"
+    }
+}
+    </script>
+
+    <script src="../public/ghost-sdk.js?v=96b63e0c50"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "7a8d29fdecb1"
+});
+</script>
+    <meta name="generator" content="Ghost 2.9">
+    <link rel="alternate" type="application/rss+xml" title="Identity16" href="../rss/index.html">
+
+</head>
+<body class="post-template tag-probability-and-statistics">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+                <a class="site-nav-logo" href="../"><img src="../content/images/2019/01/identity16-logo.png" alt="Identity16"></a>
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="../">Home</a></li>
+</ul>
+
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+                <a class="social-link social-link-fb" href="https://www.facebook.com/ghost" title="Facebook" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"></path></svg>
+</a>
+                <a class="social-link social-link-tw" href="https://twitter.com/tryghost" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"></path></svg>
+</a>
+        </div>
+            <a class="rss-button" href="https://feedly.com/i/subscription/feed/http://identity16.github.io/rss/" title="RSS" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"></circle><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"></path></svg>
+</a>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-probability-and-statistics ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="2018-12-15">15 December 2018</time>
+                        <span class="date-divider">/</span> <a href="../tag/probability-and-statistics/">probability-and-statistics</a>
+                </section>
+                <h1 class="post-full-title">2.4 Expectation, Mean, and Variance &amp; 2.5 Joint PMFs of Multiple</h1>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../content/images/size/w2000/2019/01/bayesian-2889576_1280.png" alt="2.4 Expectation, Mean, and Variance &amp; 2.5 Joint PMFs of Multiple">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <h1 id="expectationmeanandvariance">Expectation, Mean, and Variance</h1>
+<p>  여기서는 예전에 설명했던 Random Variable의 종류들에 대한 Expectation과 Variance가 어떻게 되는지만 간단하게 말해줄 것이다. 단, 증명은 단순히 전개하면 알 수 있으므로 생략한다.</p>
+<h2 id="expectationsofstandardrandomvariables">Expectations of Standard Random Variables</h2>
+<ul>
+<li>
+<p><strong>Discrete Uniform</strong> on $ {a, a + 1, \dots, b} $</p>
+<p>$$ E[X] = \frac{a+b}{2} $$</p>
+</li>
+<li>
+<p><strong>Bernoulli</strong></p>
+<p>$$ E[X] = (1-p)\cdot 0 + p\cdot 1 = p $$</p>
+</li>
+<li>
+<p><strong>Binomial</strong></p>
+<p>$$ E[X] = \sum^{n}_{k=0} k\cdot {n \choose k} p^k (1-p)^{n-k} = np $$</p>
+</li>
+<li>
+<p><strong>Geometric</strong></p>
+<p>$$ E[X] = \sum^{\infty}_{k=1}k\cdot (1-p)^{k-1}p = \frac{1}{p} $$</p>
+</li>
+<li>
+<p><strong>Poisson</strong></p>
+<p>$$E[X] = \sum^{\infty}_{k=0} k\cdot \frac{e^{-\lambda}}{k!} = \lambda $$</p>
+</li>
+</ul>
+<h2 id="variancesofstandardrandomvariables">Variances of Standard Random Variables</h2>
+<ul>
+<li>
+<p><strong>Discrete Uniform</strong> on $ {a, a + 1, \dots, b} $</p>
+<p>$$var(X) = \frac{(b-a+1)^2 - 1}{12}$$</p>
+</li>
+<li>
+<p><strong>Bernoulli</strong></p>
+<p>$$ var(X) = p(1-p) $$</p>
+</li>
+<li>
+<p><strong>Binomial</strong></p>
+<p>$$ var(X) =  np(1-p) $$</p>
+</li>
+<li>
+<p><strong>Geometric</strong></p>
+<p>$$var(X) = \frac{1-p}{p^2}$$</p>
+</li>
+<li>
+<p><strong>Poisson</strong></p>
+<p>$$var(X) = \lambda $$</p>
+</li>
+</ul>
+<h1 id="jointpmfsofmultiplerandomvariables">Joint PMFs of Multiple Random Variables</h1>
+<h2 id="jointpmf">Joint PMF</h2>
+<p>두 개의 Discrete Random Variable $ X, Y $가 같은 시행에 연관되어 있을 때, Joint PMF는 다음과 같이 정의될 수 있다.</p>
+<p>$$ p_{X,Y}(x,y) = P(X=x, Y=y) $$</p>
+<p>  $P(X=x, Y=y) $는 $P(X=x\ and\ Y=y) $나 $P(\{X=x\} \cap \{Y=y\}) $와 같은 뜻이다.</p>
+<p>  Joint PMF는 하나의 시행에서 여러 속성을 통해 결과를 표현할 때 유용하다. 예를 들어 $ X $는 키,  $ Y $는 성적으로 두고 학생을 랜덤하게 뽑는 경우를 $ P(X=160, Y=80) $과 같이 표현할 수 있다.</p>
+<h2 id="marginalpmf">Marginal PMF</h2>
+<p>  Joint PMF $ p_{X, Y}(x, y) $에서 각각의 랜덤 변수 $X, Y$에 대한 PMF를 뽑아내면 그것을 Marginal PMF라 부르고 다음과 같이 구할 수 있다.</p>
+<p>$$ p_X(x) = \displaystyle \sum_y p_{X,Y}(x,y) $$</p>
+<p>$$ p_Y(y) = \displaystyle \sum_x p_{X,Y}(x,y) $$</p>
+<p>  어떤 $ x $ 또는 $ y $에 대해 나머지 랜덤 변수의 모든 경우 확률의 합이다.</p>
+<h2 id="functionsofmultiplerandomvariables">Functions of Multiple Random Variables</h2>
+<p>  여기서는 이전 포스팅의 $ E[g(X)] = \displaystyle \sum_x g(x)p_X(x) $를 Joint PMF에 대한 것으로 확장한 것이다. 형태는 같고 단지 랜덤 변수 $ Y $ 가 추가되었을 뿐이다. 아래는 확장된 식이다.</p>
+<p>$$ E[g(X, Y)] = \displaystyle \sum_{x, y} g(x, y)p_{X, Y}(x, y) $$</p>
+<p>  $ g(X, Y) = aX+bY+c $인  경우, $ E[g(X, Y)] $는 지난 번에 이야기한 선형성에 의해 다음과 같다.</p>
+<p>$$ E[g(X, Y)] = aE[X] + bE[Y] + c $$</p>
+
+                </div>
+            </section>
+
+
+            <footer class="post-full-footer">
+
+                    
+<section class="author-card">
+        <span class="avatar-wrapper"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</span>
+    <section class="author-card-content">
+        <h4 class="author-card-name"><a href="../author/wonjun/">Wonjun Shin</a></h4>
+            <p>Read <a href="../author/wonjun/">more posts</a> by this author.</p>
+    </section>
+</section>
+<div class="post-full-footer-right">
+    <a class="author-card-button" href="../author/wonjun/">Read More</a>
+</div>
+
+
+            </footer>
+
+            <section class="post-full-comments">
+                <div id="disqus_thread"></div>
+                <script>
+                    var disqus_config = function () {
+                        this.page.url = "http://identity16.github.io/2-4-expectation-mean-and-variance-2-5-joint-pmfs-of-multiple/";
+                        this.page.identifier = "ghost-5c35ff612d91b6c511315537"
+                    };
+                    (function() {
+                        var d = document, s = d.createElement('script');
+                        s.src = 'https://identity16.disqus.com/embed.js';
+                        s.setAttribute('data-timestamp', + new Date());
+                        (d.head || d.body).appendChild(s);
+                    })();
+                </script>
+            </section>
+
+        </article>
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card" style="background-image: url(../content/images/size/w600/2019/01/probability-and-statistics-cover-1.jpg)">
+                    <header class="read-next-card-header">
+                        <small class="read-next-card-header-sitetitle">— Identity16 —</small>
+                        <h3 class="read-next-card-header-title"><a href="../tag/probability-and-statistics/">probability-and-statistics</a></h3>
+                    </header>
+                    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"></path></svg>
+</div>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li><a href="../3-4-conditioning-on-event/">3.4 Conditioning on Event</a></li>
+                            <li><a href="../3-3-normal-random-variables/">3.3 Normal Random Variables</a></li>
+                            <li><a href="../3-2-cumulative-distribution-functions/">3.2 Cumulative Distribution Functions</a></li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="../tag/probability-and-statistics/">See all 13 posts →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-probability-and-statistics ">
+
+    <a class="post-card-image-link" href="../2-6-conditioning/">
+        <img class="post-card-image" src="../content/images/size/w600/2019/01/financial-2860753_1280.jpg" alt="2.6 Conditioning">
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../2-6-conditioning/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">probability-and-statistics</span>
+                <h2 class="post-card-title">2.6 Conditioning</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>Conditioning   이 부분의 내용은 Random Variable에 조건부 확률 개념을 더하는 것이라고 생각하면 된다. 그에 따른 PMF, Expectation의 변화를 알아보자. Conditioning on Random Variable on an Event   어떤 Event $ A $가 발생했을 때, Random</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Wonjun Shin
+                    </div>
+
+                        <a href="../author/wonjun/" class="static-avatar author-profile-image"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</a>
+                </li>
+            </ul>
+
+            <span class="reading-time">2 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+                <article class="post-card post tag-probability-and-statistics ">
+
+    <a class="post-card-image-link" href="../2-3-functions-of-random-variables-2-4-expectation-mean-and-variance/">
+        <img class="post-card-image" src="../content/images/size/w600/2019/01/graphic-1606688_1280.png" alt="2.3 Functions of Random Variables &amp; 2.4 Expectation, Mean, and Variance">
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../2-3-functions-of-random-variables-2-4-expectation-mean-and-variance/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">probability-and-statistics</span>
+                <h2 class="post-card-title">2.3 Functions of Random Variables &amp; 2.4 Expectation, Mean, and Variance</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>Functions of Random Variables   여기서는 Random Variable이 값이 아닌 함수로 정의되는 경우에 대해 이야기한다. Random Variable $ X $와 $ f : \mathbb{R} \rightarrow \mathbb{R} $인 함수 $ f $가 있다고 하자. 그리고 새로운 Random</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Wonjun Shin
+                    </div>
+
+                        <a href="../author/wonjun/" class="static-avatar author-profile-image"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</a>
+                </li>
+            </ul>
+
+            <span class="reading-time">3 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+        </div>
+    </div>
+</aside>
+
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="../">
+                <img src="../content/images/size/w30/2019/01/identity16-favicon.png" alt="Identity16 icon">
+            <span>Identity16</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">—</span>
+    <div class="floating-header-title">2.4 Expectation, Mean, and Variance &amp; 2.5 Joint PMFs of Multiple</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"></path>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=2.4%20Expectation%2C%20Mean%2C%20and%20Variance%20%26%202.5%20Joint%20PMFs%20of%20Multiple&amp;url=http://identity16.github.io/2-4-expectation-mean-and-variance-2-5-joint-pmfs-of-multiple/" onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"></path></svg>
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=http://identity16.github.io/2-4-expectation-mean-and-variance-2-5-joint-pmfs-of-multiple/" onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"></path></svg>
+        </a>
+    </div>
+    <progress id="reading-progress" class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="../">Identity16</a> © 2019</section>
+                <nav class="site-footer-nav">
+                    <a href="../">Latest Posts</a>
+                    <a href="https://www.facebook.com/ghost" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://twitter.com/tryghost" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="../assets/built/jquery.fitvids.js?v=96b63e0c50"></script>
+
+
+    <script type="text/javascript" async src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [["$", "$"], ["\\(", "\\)"]],
+            processEscapes: true
+        }
+    });
+</script>
+<script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('#reading-progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+
+});
+</script>
+
+
+    
+
+</body>

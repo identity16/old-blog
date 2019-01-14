@@ -1,0 +1,175 @@
+﻿
+<head>
+    <meta charset="utf-8">
+
+    <title>4.3 Building a Datapath</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <link rel="shortcut icon" href="../../favicon.png" type="image/png">
+    <link rel="canonical" href="../index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="Identity16">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="4.3 Building a Datapath">
+    <meta property="og:description" content="Building a Datapath   Datapath란 CPU에서 데이터와 주소를 처리하는 요소들을 말한다. 레지스터, ALU, MUX, 메모리 등이 Datapath라 할 수 있다. 지금부터는 lw, sw, add, sub, and, or, slt, beq, j 총 9가지 명령어를 수행할 수 있는 프로세서의 Datapath를 점점 완성해 나갈 것이다. Instruction Fetch   우선 모든 Instruction을 처리하기 위한 첫 단계인">
+    <meta property="og:url" content="http://identity16.github.io/4-3-building-a-datapath/">
+    <meta property="og:image" content="http://identity16.github.io/content/images/2019/01/5583.jpg">
+    <meta property="article:published_time" content="2018-12-09T05:45:00.000Z">
+    <meta property="article:modified_time" content="2019-01-10T10:05:14.000Z">
+    <meta property="article:tag" content="computer-architecture">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="4.3 Building a Datapath">
+    <meta name="twitter:description" content="Building a Datapath   Datapath란 CPU에서 데이터와 주소를 처리하는 요소들을 말한다. 레지스터, ALU, MUX, 메모리 등이 Datapath라 할 수 있다. 지금부터는 lw, sw, add, sub, and, or, slt, beq, j 총 9가지 명령어를 수행할 수 있는 프로세서의 Datapath를 점점 완성해 나갈 것이다. Instruction Fetch   우선 모든 Instruction을 처리하기 위한 첫 단계인">
+    <meta name="twitter:url" content="http://identity16.github.io/4-3-building-a-datapath/">
+    <meta name="twitter:image" content="http://identity16.github.io/content/images/2019/01/5583.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Wonjun Shin">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="computer-architecture">
+    <meta name="twitter:site" content="@tryghost">
+    <meta property="og:image:width" content="2000">
+    <meta property="og:image:height" content="2000">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Identity16",
+        "logo": "http://identity16.github.io/content/images/2019/01/identity16-logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Wonjun Shin",
+        "url": "http://identity16.github.io/author/wonjun/",
+        "sameAs": [
+            "https://identity16.github.io"
+        ]
+    },
+    "headline": "4.3 Building a Datapath",
+    "url": "http://identity16.github.io/4-3-building-a-datapath/",
+    "datePublished": "2018-12-09T05:45:00.000Z",
+    "dateModified": "2019-01-10T10:05:14.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://identity16.github.io/content/images/2019/01/5583.jpg",
+        "width": 2000,
+        "height": 2000
+    },
+    "keywords": "computer-architecture",
+    "description": "Building a Datapath   Datapath란 CPU에서 데이터와 주소를 처리하는 요소들을 말한다. 레지스터, ALU, MUX, 메모리 등이 Datapath라 할 수 있다. 지금부터는 lw, sw, add, sub, and, or, slt, beq, j 총 9가지 명령어를 수행할 수 있는 프로세서의 Datapath를 점점 완성해 나갈 것이다. Instruction Fetch   우선 모든 Instruction을 처리하기 위한 첫 단계인",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://identity16.github.io/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.9">
+    <link rel="alternate" type="application/rss+xml" title="Identity16" href="../../rss/index.html">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,600,400">
+    <style amp-custom>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{margin:0.67em 0;font-size:2em}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{position:relative;vertical-align:baseline;font-size:75%;line-height:0}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}amp-img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{margin:0 2px;padding:0.35em 0.625em 0.75em;border:1px solid #c0c0c0}legend{padding:0;border:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}html{max-height:100%;height:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0)}body{max-height:100%;height:100%;color:#3a4145;background:#f4f8fb;letter-spacing:0.01rem;font-family:"Merriweather", serif;font-size:1.8rem;line-height:1.75em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"kern" 1;-moz-font-feature-settings:"kern" 1;-o-font-feature-settings:"kern" 1}::-moz-selection{background:#d6edff}::selection{background:#d6edff}h1,h2,h3,h4,h5,h6{margin:0 0 0.3em 0;color:#2e2e2e;font-family:"Open Sans", sans-serif;line-height:1.15em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-moz-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-o-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1}h1{text-indent:-2px;letter-spacing:-1px;font-size:2.6rem}h2{letter-spacing:0;font-size:2.4rem}h3{letter-spacing:-0.6px;font-size:2.1rem}h4{font-size:1.9rem}h5{font-size:1.8rem}h6{font-size:1.8rem}a{color:#4a4a4a}a:hover{color:#111}p,ul,ol,dl{margin:0 0 2.5rem 0;font-size:1.5rem;text-rendering:geometricPrecision;-webkit-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-moz-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-o-font-feature-settings:"liga" 1, "onum" 1, "kern" 1}ol,ul{padding-left:2em}ol ol,ul ul,ul ol,ol ul{margin:0 0 0.4em 0;padding-left:2em}dl dt{float:left;clear:left;overflow:hidden;margin-bottom:1em;width:180px;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-bottom:1em;margin-left:200px}li{margin:0.4em 0}li li{margin:0}hr{display:block;margin:1.75em 0;padding:0;height:1px;border:0;border-top:#efefef 1px solid}blockquote{box-sizing:border-box;margin:1.75em 0 1.75em 0;padding:0 0 0 1.75em;border-left:#4a4a4a 0.4em solid;-moz-box-sizing:border-box}blockquote p{margin:0.8em 0;font-style:italic}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;color:#ccc;font-size:0.9em}blockquote small:before{content:"\2014 \00A0"}blockquote cite{font-weight:700}blockquote cite a{font-weight:normal}mark{background-color:#fdffb6}code,tt{padding:1px 3px;border:#e3edf3 1px solid;background:#f7fafb;border-radius:2px;white-space:pre-wrap;font-family:Inconsolata, monospace, sans-serif;font-size:0.85em;font-feature-settings:"liga" 0;-webkit-font-feature-settings:"liga" 0;-moz-font-feature-settings:"liga" 0}pre{overflow:auto;box-sizing:border-box;margin:0 0 1.75em 0;padding:10px;width:100%;border:#e3edf3 1px solid;background:#f7fafb;border-radius:3px;white-space:pre;font-family:Inconsolata, monospace, sans-serif;font-size:0.9em;-moz-box-sizing:border-box}pre code,pre tt{padding:0;border:none;background:transparent;white-space:pre-wrap;font-size:inherit}kbd{display:inline-block;margin-bottom:0.4em;padding:1px 8px;border:#ccc 1px solid;background:#f4f4f4;border-radius:4px;box-shadow:0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 #fff inset;color:#666;text-shadow:#fff 0 1px 0;font-size:0.9em;font-weight:700}table{box-sizing:border-box;margin:1.75em 0;max-width:100%;width:100%;background-color:transparent;-moz-box-sizing:border-box}table th,table td{padding:8px;border-top:#efefef 1px solid;vertical-align:top;text-align:left;line-height:20px}table th{color:#000}table caption + thead tr:first-child th,table caption + thead tr:first-child td,table colgroup + thead tr:first-child th,table colgroup + thead tr:first-child td,table thead:first-child tr:first-child th,table thead:first-child tr:first-child td{border-top:0}table tbody + tbody{border-top:#efefef 2px solid}table table table{background-color:#fff}table tbody > tr:nth-child(odd) > td,table tbody > tr:nth-child(odd) > th{background-color:#f6f6f6}table.plain tbody > tr:nth-child(odd) > td,table.plain tbody > tr:nth-child(odd) > th{background:transparent}iframe,amp-iframe,.fluid-width-video-wrapper{display:block;margin:1.75em 0}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper amp-iframe{margin:0}textarea,select,input{margin:0 0 5px 0;padding:6px 9px;width:260px;outline:0;border:#e7eef2 1px solid;background:#fff;border-radius:4px;box-shadow:none;font-family:"Open Sans", sans-serif;font-size:1.6rem;line-height:1.4em;font-weight:100;-webkit-appearance:none}textarea{min-width:250px;min-height:80px;max-width:340px;width:100%;height:auto}input[type="text"]:focus,input[type="email"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="week"]:focus,input[type="time"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,textarea:focus{outline:none;outline-width:0;border:#bbc7cc 1px solid;background:#fff}select{width:270px;height:30px;line-height:30px}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.main-header{position:relative;display:table;overflow:hidden;box-sizing:border-box;width:100%;height:50px;background:#5ba4e5 no-repeat center center;background-size:cover;text-align:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box}.content{background:#fff;padding-top:15px}.blog-title,.content{margin:auto;max-width:600px}.blog-title a{display:block;padding-right:16px;padding-left:16px;height:50px;color:#fff;text-decoration:none;font-family:"Open Sans", sans-serif;font-size:16px;line-height:50px;font-weight:600}.post{position:relative;margin-top:0;margin-right:16px;margin-left:16px;padding-bottom:0;max-width:100%;border-bottom:#ebf2f6 1px solid;word-wrap:break-word;font-size:0.95em;line-height:1.65em}.post-header{margin-bottom:1rem}.post-title{margin-bottom:0}.post-title a{text-decoration:none}.post-meta{display:block;margin:3px 0 0 0;color:#9eabb3;font-family:"Open Sans", sans-serif;font-size:1.3rem;line-height:2.2rem}.post-meta a{color:#9eabb3;text-decoration:none}.post-meta a:hover{text-decoration:underline}.post-meta .author{margin:0;font-size:1.3rem;line-height:1.3em}.post-date{display:inline-block;text-transform:uppercase;white-space:nowrap;font-size:1.2rem;line-height:1.2em}.post-image{margin:0;padding-top:3rem;padding-bottom:30px;border-top:1px #E8E8E8 solid}.post-content amp-img,.post-content amp-anim{position:relative;left:50%;display:block;padding:0;min-width:0;max-width:112%;width:calc(100% + 32px);height:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%)}.footnotes{font-size:1.3rem;line-height:1.6em;font-style:italic}.footnotes li{margin:0.6rem 0}.footnotes p{margin:0}.footnotes p a:last-child{text-decoration:none}.site-footer{position:relative;margin:0 auto 20px auto;padding:1rem 15px;max-width:600px;color:rgba(0,0,0,0.5);font-family:"Open Sans", sans-serif;font-size:1.1rem;line-height:1.75em}.site-footer a{color:rgba(0,0,0,0.5);text-decoration:none;font-weight:bold}.site-footer a:hover{border-bottom:#bbc7cc 1px solid}.poweredby{display:block;float:right;width:45%;text-align:right}.copyright{display:block;float:left;width:45%}</style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    
+
+</head>
+
+<body class="amp-template">
+    <header class="main-header">
+        <nav class="blog-title">
+            <a href="../../">Identity16</a>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">4.3 Building a Datapath</h1>
+                <section class="post-meta">
+                    <p class="author">by <a href="../../author/wonjun/">Wonjun Shin</a></p>
+                    <time class="post-date" datetime="2018-12-09">2018-12-09</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="http://identity16.github.io/content/images/2019/01/5583.jpg" width="600" height="400" layout="responsive"></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <h1 id="buildingadatapath">Building a Datapath</h1>
+<p>  Datapath란 CPU에서 데이터와 주소를 처리하는 요소들을 말한다. 레지스터, ALU, MUX, 메모리 등이 Datapath라 할 수 있다. 지금부터는 <code>lw</code>, <code>sw</code>, <code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>, <code>beq</code>, <code>j</code> 총 9가지 명령어를 수행할 수 있는 프로세서의 Datapath를 점점 완성해 나갈 것이다.</p>
+<h2 id="instructionfetch">Instruction Fetch</h2>
+<p>  우선 모든 Instruction을 처리하기 위한 첫 단계인 Instruction Fetch를 먼저 살펴보자.</p>
+<p></p>
+<p>위 이미지*(강의 교재 figure 4.6)* 의 요소들에 대해 간단하게 알아보자.</p>
+<ul>
+<li>
+<p><strong>PC</strong> : Program Counter. 실행할 명령어의 주소를 저장하고 있는 레지스터이다. State Element이기 때문에 이미지엔 없지만 Clock Input도 있다고 생각하면 된다.</p>
+</li>
+<li>
+<p><strong>Instruction Memory</strong> : 명령어의 주소를 받아서, 그 주소에 맞는 Instruction을 내보낸다. Instruction은 2장에서 다룬 32 bit 형식(R, I, J Format)이다.</p>
+</li>
+<li>
+<p><strong>Adder</strong> : 말 그대로 덧셈을 하는 요소. 위 이미지에서는 다음 명령어 주소를 가리키기 위해 (현재 주소 + 4)를 하기 위해 존재한다. 4를 더하는 것는 Instruction의 길이가 32 bit이고, 주소 하나가 1 byte(8 bit)이므로 4 byte 뒤의 주소가 다음 명령어의 주소이기 때문이다.</p>
+</li>
+</ul>
+<h2 id="rformatinstructions">R-Format Instructions</h2>
+<p>  여기에서 소개할 것들은 R-Format Instruction을 구현하는 데 필요한 요소들이다. 우리가 구현하려는 Instruction 중에서 R-Format은 <code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>이다.</p>
+<p>  R-Format Instruction의 형태는 2장에서 다루기 때문에*(포스팅은 아직 올리지 않음)* 바로 설명하자면, R-Format은 피연산자로 2개의 Read Register(R<sub>s</sub>, R<sub>t</sub>) Number와 1개의 Write Register(R<sub>d</sub>) Number를 가진다.</p>
+<p></p>
+<p>위 이미지*(강의 교재 figure 4.7)*와 같이 살펴보자.</p>
+<p>  Registers에서는 3개의 Register Number(각 5 bits)를 입력으로 받는다. 그리고 출력으로 두 Read Register의 값을 읽어와 ALU로 넘긴다. ALU에서는 Instruction의 종류에 맞는 연산을 수행하는데, 이는 ALU operation이라는 플래그에 의해 결정된다. 그리고 연산 결과가 Write Register에 저장되어야 하므로 ALU result는 Registers의 Write Data 포트로 들어가고 Write Register에 저장된다.</p>
+<h2 id="loadstoreinstructions">Load / Store Instructions</h2>
+<p>  <code>lw</code>, <code>sw</code>를 구현할 때 신경써야 할 점은, 메모리에 접근한다는 점과 레지스터 2개(R<sub>s</sub>, R<sub>t</sub>)를 입력받는데 <code>lw</code>에서는 R<sub>t</sub>가 Write로 사용된다는 것이다. 또, 메모리 offset을 16 bit 즉시 값(<code>lw</code>, <code>sw</code>가 I-Format이기 때문)으로 입력받고 이를 R<sub>s</sub>에서 읽은 베이스 주소값(32 bit)에 더해야 한다. 우리가 사용할 ALU는 32 bit 값 두 개의 연산을 할 수 있기 때문에 16 bit인 offset을 32 bit로 확장한 다음 ALU의 입력 값으로 넘겨야 하는데, 이 때 Sign Extension을 하여 값을 유지한 채로 32 bit로 바꿔준다.</p>
+<p></p>
+<p> 위 이미지*(강의 교재 figure 4.9)*는 이 단계에서 사용되는 두 유닛을 나타낸다. Sign Extension Unit은 16 bit 즉시값을 32 bit로 변환하는데 사용되고, Data Memory Unit은 메모리 주소를 입력받고 MemWrite, MemRead 플래그 상태에 따라 메모리를 읽거나 Write Data 입력으로 들어온 데이터(<code>sw</code>일 때 R<sub>t</sub>의 값)를 메모리에 쓴다. 이 때, 메모리 주소는 (R<sub>s</sub> 레지스터에 들어 있는 베이스 주소 + Sign Extension한 offset)으로 결정된다. <code>lw</code>이면 Read Data를 R<sub>t</sub>에 저장하기 위해 Registers의 Write Data로 연결해준다. 지금까지 나온 부분을 합쳐서 그리면 아래 이미지와 같다.</p>
+<p></p>
+<p>  같은 포트로 들어갈 수 있는 데이터들은 MUX로 Instruction에 따라 선택할 수 있도록 하였고 MUX, Registers, Data Memory, ALU의 동작을 제어하기 위한 플래그(빨간 색으로 표시된 것)들은 다음 포스팅에 설명할 Control에서 Instruction의 종류에 따라 결정한다.</p>
+<p>  지금까지 만든 회로로 실행할 수 있는(Control이 있다고 가정) 명령어는 <code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>stl</code>, <code>lw</code>, <code>sw</code> 이다. 이제 <code>beq</code>, <code>j</code>만 남았다. 일단 <code>j</code>는 다음 포스팅에서 다루도록 하겠다.</p>
+<h2 id="branchinstructions">Branch Instructions</h2>
+<p>  <code>beq</code>는 I-Format이기 때문에 값이 같은지 비교할 두 레지스터와 두 값이 같을 때 수행할 Instruction의 주소 Offset을 16 bit 즉시값을 피연산자로 갖는다. <code>lw</code>, <code>sw</code>와 마찬가지로 즉시값은 Sign Extend하여 32 bit로 만들어 준다. 하지만 <code>beq</code>에서는 Shift left를 두 번(4배) 해주는데, Instruction은 1 word이고 word가 위치한 곳은 정렬되어 있기 때문에 항상 주소값의 뒷자리가 00이다. 바이트 정렬에 대해서는 <a href="https://stackoverflow.com/questions/2846914/what-is-meant-by-memory-is-8-bytes-aligned">링크 1(영어)</a> <a href="https://kldp.org/node/95018">링크 2(한글)</a> 을 참고하면 더 자세하게 알 수 있고, 2장의 Branch Addressing*(포스팅은 아직 올리지 않음)*을 설명하는 부분에서 앞서 설명되었다.</p>
+<p>  Branch Target Address는 (PC + 4) + (offset * 4)으로 계산할 수 있고*(이것도 2장에서 이미 언급)*, 두 레지스터(R<sub>s</sub>, R<sub>t</sub>)의 값이 같으면 이 주소가 PC에 저장된다. 두 레지스터의 값을 비교할 때는 ALU에서 두 값을 뺀 다음, Zero 출력이 1이 되는지 확인한다. ALU의 Zero는 연산의 결과가 0이면 1이되고 아니면 0이 되는 출력값이다. ALU에는 출력이 ALU Result와 Zero 총 2개가 있다고 생각하면 된다.</p>
+<p></p>
+<h2 id="composingtheelements">Composing the Elements</h2>
+<p>  앞서 Instruction Fetch, R-Format, Load / Store 부분을 합친 회로를 보여줬는데 여기서는 요소들을 합칠 때 생각해 볼 것들을 알아볼 것이다.</p>
+<p>  합치기 전 각각의 Datapath들은 한 가지 Instruction을 실행할 수 있을 것이고 여러 Instruction을 동시에 수행하기 위해 이들을 병렬적으로 놓는다면 ALU 같이 여러 Datapath에 등장하는 요소는 같은 것이 여러 개가 필요할 것이다. 중복된 부품은 비용 증가로 이어지기 때문에, 그렇기 보다는 한 요소에 들어가는 Input을 선택적으로 넣을 수 있도록 MUX를 놓는 것이 더 효율적이다. 그래서 앞에서 보여준 회로는 MUX를 이용해 중복을 피하며 합칠 수 있었다. 그리고 이 MUX의 출력을 선택하는 플래그를 결정하기 위해 Control이 필요한 데 이는 다음 포스팅의 주제이다.</p>
+<p>  MUX는 <code>beq</code>까지 합친 회로에서 어떤 부분에서 필요할까?</p>
+<ol>
+<li>
+<p>ALU 입력 : 레지스터 입력(<code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>) or 즉시값(<code>lw</code>, <code>sw</code>)</p>
+</li>
+<li>
+<p>Register Write Data : ALU 결과(<code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>) or 데이터에서 읽은 값(<code>lw</code>)</p>
+</li>
+<li>
+<p>다음 PC 값 : PC + 4(<code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>, <code>lw</code>, <code>sw</code>) or Branch Target Address(<code>beq</code>)</p>
+</li>
+<li>
+<p>Write Register Number : R<sub>d</sub>(<code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>) or R<sub>t</sub>(<code>lw</code>)</p>
+</li>
+</ol>
+<p></p>
+<p>   <code>beq</code>까지 전부 합치고 Control, ALU Control까지 추가한 그림이다. Control에 대해서는 다음 포스팅에서 다루겠지만, 간단하게 말하자면 opcode를 읽고 instruction의 종류에 따라 MUX에서 어떤 값을 선택할지, 메모리를 쓸 지 읽을지, 레지스터에 값을 저장할 지 등에 대한 선택을 한다고 생각하면 된다. ALU의 연산을 결정하는 것은 ALU Control이라는 Control을 한 번 더 거쳐서 결정하게 된다.</p>
+<p>  PC는 State Element이고, 나머지는 Combinational Element이기 때문에 전체 회로를 도는 데에는 1 Clock이 소요(CPI = 1)되어야 한다. 즉, 이 회로가 도는 속도에 따라 프로세서의 클럭 주기가 결정된다고 할 수 있다.</p>
+
+<a href="https://www.freepik.com/free-photos-vectors/background">Header Image created by Freepik</a>
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="../../">Identity16</a> © 2019</section>
+        <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+    </footer>
+</body>

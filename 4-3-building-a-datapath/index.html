@@ -1,0 +1,511 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>4.3 Building a Datapath</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../assets/built/screen.css?v=96b63e0c50">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130578466-1"></script>
+    <script>
+        var host = window.location.hostname;
+        if(host !== "localhost")
+        {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-130578466-1');
+        }
+    </script>
+    <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6003792608716119",
+            enable_page_level_ads: true
+        });
+    </script>
+
+    <link rel="shortcut icon" href="../favicon.png" type="image/png">
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="amp/index.html">
+    
+    <meta property="og:site_name" content="Identity16">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="4.3 Building a Datapath">
+    <meta property="og:description" content="Building a Datapath   Datapath란 CPU에서 데이터와 주소를 처리하는 요소들을 말한다. 레지스터, ALU, MUX, 메모리 등이 Datapath라 할 수 있다. 지금부터는 lw, sw, add, sub, and, or, slt, beq, j 총 9가지 명령어를 수행할 수 있는 프로세서의 Datapath를 점점 완성해 나갈 것이다. Instruction Fetch   우선 모든 Instruction을 처리하기 위한 첫 단계인">
+    <meta property="og:url" content="http://identity16.github.io/4-3-building-a-datapath/">
+    <meta property="og:image" content="http://identity16.github.io/content/images/2019/01/5583.jpg">
+    <meta property="article:published_time" content="2018-12-09T05:45:00.000Z">
+    <meta property="article:modified_time" content="2019-01-10T10:05:14.000Z">
+    <meta property="article:tag" content="computer-architecture">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="4.3 Building a Datapath">
+    <meta name="twitter:description" content="Building a Datapath   Datapath란 CPU에서 데이터와 주소를 처리하는 요소들을 말한다. 레지스터, ALU, MUX, 메모리 등이 Datapath라 할 수 있다. 지금부터는 lw, sw, add, sub, and, or, slt, beq, j 총 9가지 명령어를 수행할 수 있는 프로세서의 Datapath를 점점 완성해 나갈 것이다. Instruction Fetch   우선 모든 Instruction을 처리하기 위한 첫 단계인">
+    <meta name="twitter:url" content="http://identity16.github.io/4-3-building-a-datapath/">
+    <meta name="twitter:image" content="http://identity16.github.io/content/images/2019/01/5583.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Wonjun Shin">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="computer-architecture">
+    <meta name="twitter:site" content="@tryghost">
+    <meta property="og:image:width" content="2000">
+    <meta property="og:image:height" content="2000">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Identity16",
+        "logo": "http://identity16.github.io/content/images/2019/01/identity16-logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Wonjun Shin",
+        "url": "http://identity16.github.io/author/wonjun/",
+        "sameAs": [
+            "https://identity16.github.io"
+        ]
+    },
+    "headline": "4.3 Building a Datapath",
+    "url": "http://identity16.github.io/4-3-building-a-datapath/",
+    "datePublished": "2018-12-09T05:45:00.000Z",
+    "dateModified": "2019-01-10T10:05:14.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://identity16.github.io/content/images/2019/01/5583.jpg",
+        "width": 2000,
+        "height": 2000
+    },
+    "keywords": "computer-architecture",
+    "description": "Building a Datapath   Datapath란 CPU에서 데이터와 주소를 처리하는 요소들을 말한다. 레지스터, ALU, MUX, 메모리 등이 Datapath라 할 수 있다. 지금부터는 lw, sw, add, sub, and, or, slt, beq, j 총 9가지 명령어를 수행할 수 있는 프로세서의 Datapath를 점점 완성해 나갈 것이다. Instruction Fetch   우선 모든 Instruction을 처리하기 위한 첫 단계인",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://identity16.github.io/"
+    }
+}
+    </script>
+
+    <script src="../public/ghost-sdk.js?v=96b63e0c50"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "7a8d29fdecb1"
+});
+</script>
+    <meta name="generator" content="Ghost 2.9">
+    <link rel="alternate" type="application/rss+xml" title="Identity16" href="../rss/index.html">
+
+</head>
+<body class="post-template tag-computer-architecture">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+                <a class="site-nav-logo" href="../"><img src="../content/images/2019/01/identity16-logo.png" alt="Identity16"></a>
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="../">Home</a></li>
+</ul>
+
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+                <a class="social-link social-link-fb" href="https://www.facebook.com/ghost" title="Facebook" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"></path></svg>
+</a>
+                <a class="social-link social-link-tw" href="https://twitter.com/tryghost" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"></path></svg>
+</a>
+        </div>
+            <a class="rss-button" href="https://feedly.com/i/subscription/feed/http://identity16.github.io/rss/" title="RSS" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"></circle><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"></path></svg>
+</a>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-computer-architecture ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="2018-12-09">9 December 2018</time>
+                        <span class="date-divider">/</span> <a href="../tag/computer-architecture/">computer-architecture</a>
+                </section>
+                <h1 class="post-full-title">4.3 Building a Datapath</h1>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../content/images/size/w2000/2019/01/5583.jpg" alt="4.3 Building a Datapath">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <h1 id="buildingadatapath">Building a Datapath</h1>
+<p>  Datapath란 CPU에서 데이터와 주소를 처리하는 요소들을 말한다. 레지스터, ALU, MUX, 메모리 등이 Datapath라 할 수 있다. 지금부터는 <code>lw</code>, <code>sw</code>, <code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>, <code>beq</code>, <code>j</code> 총 9가지 명령어를 수행할 수 있는 프로세서의 Datapath를 점점 완성해 나갈 것이다.</p>
+<h2 id="instructionfetch">Instruction Fetch</h2>
+<p>  우선 모든 Instruction을 처리하기 위한 첫 단계인 Instruction Fetch를 먼저 살펴보자.</p>
+<p><img src="../content/images/2019/01/computer-architecture-4-3-1.png" alt="computer-architecture-4-3-1"></p>
+<p>위 이미지*(강의 교재 figure 4.6)* 의 요소들에 대해 간단하게 알아보자.</p>
+<ul>
+<li>
+<p><strong>PC</strong> : Program Counter. 실행할 명령어의 주소를 저장하고 있는 레지스터이다. State Element이기 때문에 이미지엔 없지만 Clock Input도 있다고 생각하면 된다.</p>
+</li>
+<li>
+<p><strong>Instruction Memory</strong> : 명령어의 주소를 받아서, 그 주소에 맞는 Instruction을 내보낸다. Instruction은 2장에서 다룬 32 bit 형식(R, I, J Format)이다.</p>
+</li>
+<li>
+<p><strong>Adder</strong> : 말 그대로 덧셈을 하는 요소. 위 이미지에서는 다음 명령어 주소를 가리키기 위해 (현재 주소 + 4)를 하기 위해 존재한다. 4를 더하는 것는 Instruction의 길이가 32 bit이고, 주소 하나가 1 byte(8 bit)이므로 4 byte 뒤의 주소가 다음 명령어의 주소이기 때문이다.</p>
+</li>
+</ul>
+<h2 id="rformatinstructions">R-Format Instructions</h2>
+<p>  여기에서 소개할 것들은 R-Format Instruction을 구현하는 데 필요한 요소들이다. 우리가 구현하려는 Instruction 중에서 R-Format은 <code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>이다.</p>
+<p>  R-Format Instruction의 형태는 2장에서 다루기 때문에*(포스팅은 아직 올리지 않음)* 바로 설명하자면, R-Format은 피연산자로 2개의 Read Register(R<sub>s</sub>, R<sub>t</sub>) Number와 1개의 Write Register(R<sub>d</sub>) Number를 가진다.</p>
+<p><img src="../content/images/2019/01/computer-architecture-4-3-2.png" alt="computer-architecture-4-3-2"></p>
+<p>위 이미지*(강의 교재 figure 4.7)*와 같이 살펴보자.</p>
+<p>  Registers에서는 3개의 Register Number(각 5 bits)를 입력으로 받는다. 그리고 출력으로 두 Read Register의 값을 읽어와 ALU로 넘긴다. ALU에서는 Instruction의 종류에 맞는 연산을 수행하는데, 이는 ALU operation이라는 플래그에 의해 결정된다. 그리고 연산 결과가 Write Register에 저장되어야 하므로 ALU result는 Registers의 Write Data 포트로 들어가고 Write Register에 저장된다.</p>
+<h2 id="loadstoreinstructions">Load / Store Instructions</h2>
+<p>  <code>lw</code>, <code>sw</code>를 구현할 때 신경써야 할 점은, 메모리에 접근한다는 점과 레지스터 2개(R<sub>s</sub>, R<sub>t</sub>)를 입력받는데 <code>lw</code>에서는 R<sub>t</sub>가 Write로 사용된다는 것이다. 또, 메모리 offset을 16 bit 즉시 값(<code>lw</code>, <code>sw</code>가 I-Format이기 때문)으로 입력받고 이를 R<sub>s</sub>에서 읽은 베이스 주소값(32 bit)에 더해야 한다. 우리가 사용할 ALU는 32 bit 값 두 개의 연산을 할 수 있기 때문에 16 bit인 offset을 32 bit로 확장한 다음 ALU의 입력 값으로 넘겨야 하는데, 이 때 Sign Extension을 하여 값을 유지한 채로 32 bit로 바꿔준다.</p>
+<p><img src="../content/images/2019/01/computer-architecture-4-3-3.png" alt="computer-architecture-4-3-3"></p>
+<p> 위 이미지*(강의 교재 figure 4.9)*는 이 단계에서 사용되는 두 유닛을 나타낸다. Sign Extension Unit은 16 bit 즉시값을 32 bit로 변환하는데 사용되고, Data Memory Unit은 메모리 주소를 입력받고 MemWrite, MemRead 플래그 상태에 따라 메모리를 읽거나 Write Data 입력으로 들어온 데이터(<code>sw</code>일 때 R<sub>t</sub>의 값)를 메모리에 쓴다. 이 때, 메모리 주소는 (R<sub>s</sub> 레지스터에 들어 있는 베이스 주소 + Sign Extension한 offset)으로 결정된다. <code>lw</code>이면 Read Data를 R<sub>t</sub>에 저장하기 위해 Registers의 Write Data로 연결해준다. 지금까지 나온 부분을 합쳐서 그리면 아래 이미지와 같다.</p>
+<p><img src="../content/images/2019/01/computer-architecture-4-3-4.jpeg" alt="computer-architecture-4-3-4"></p>
+<p>  같은 포트로 들어갈 수 있는 데이터들은 MUX로 Instruction에 따라 선택할 수 있도록 하였고 MUX, Registers, Data Memory, ALU의 동작을 제어하기 위한 플래그(빨간 색으로 표시된 것)들은 다음 포스팅에 설명할 Control에서 Instruction의 종류에 따라 결정한다.</p>
+<p>  지금까지 만든 회로로 실행할 수 있는(Control이 있다고 가정) 명령어는 <code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>stl</code>, <code>lw</code>, <code>sw</code> 이다. 이제 <code>beq</code>, <code>j</code>만 남았다. 일단 <code>j</code>는 다음 포스팅에서 다루도록 하겠다.</p>
+<h2 id="branchinstructions">Branch Instructions</h2>
+<p>  <code>beq</code>는 I-Format이기 때문에 값이 같은지 비교할 두 레지스터와 두 값이 같을 때 수행할 Instruction의 주소 Offset을 16 bit 즉시값을 피연산자로 갖는다. <code>lw</code>, <code>sw</code>와 마찬가지로 즉시값은 Sign Extend하여 32 bit로 만들어 준다. 하지만 <code>beq</code>에서는 Shift left를 두 번(4배) 해주는데, Instruction은 1 word이고 word가 위치한 곳은 정렬되어 있기 때문에 항상 주소값의 뒷자리가 00이다. 바이트 정렬에 대해서는 <a href="https://stackoverflow.com/questions/2846914/what-is-meant-by-memory-is-8-bytes-aligned">링크 1(영어)</a> <a href="https://kldp.org/node/95018">링크 2(한글)</a> 을 참고하면 더 자세하게 알 수 있고, 2장의 Branch Addressing*(포스팅은 아직 올리지 않음)*을 설명하는 부분에서 앞서 설명되었다.</p>
+<p>  Branch Target Address는 (PC + 4) + (offset * 4)으로 계산할 수 있고*(이것도 2장에서 이미 언급)*, 두 레지스터(R<sub>s</sub>, R<sub>t</sub>)의 값이 같으면 이 주소가 PC에 저장된다. 두 레지스터의 값을 비교할 때는 ALU에서 두 값을 뺀 다음, Zero 출력이 1이 되는지 확인한다. ALU의 Zero는 연산의 결과가 0이면 1이되고 아니면 0이 되는 출력값이다. ALU에는 출력이 ALU Result와 Zero 총 2개가 있다고 생각하면 된다.</p>
+<p><img src="../content/images/2019/01/computer-architecture-4-3-5.png" alt="computer-architecture-4-3-5"></p>
+<h2 id="composingtheelements">Composing the Elements</h2>
+<p>  앞서 Instruction Fetch, R-Format, Load / Store 부분을 합친 회로를 보여줬는데 여기서는 요소들을 합칠 때 생각해 볼 것들을 알아볼 것이다.</p>
+<p>  합치기 전 각각의 Datapath들은 한 가지 Instruction을 실행할 수 있을 것이고 여러 Instruction을 동시에 수행하기 위해 이들을 병렬적으로 놓는다면 ALU 같이 여러 Datapath에 등장하는 요소는 같은 것이 여러 개가 필요할 것이다. 중복된 부품은 비용 증가로 이어지기 때문에, 그렇기 보다는 한 요소에 들어가는 Input을 선택적으로 넣을 수 있도록 MUX를 놓는 것이 더 효율적이다. 그래서 앞에서 보여준 회로는 MUX를 이용해 중복을 피하며 합칠 수 있었다. 그리고 이 MUX의 출력을 선택하는 플래그를 결정하기 위해 Control이 필요한 데 이는 다음 포스팅의 주제이다.</p>
+<p>  MUX는 <code>beq</code>까지 합친 회로에서 어떤 부분에서 필요할까?</p>
+<ol>
+<li>
+<p>ALU 입력 : 레지스터 입력(<code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>) or 즉시값(<code>lw</code>, <code>sw</code>)</p>
+</li>
+<li>
+<p>Register Write Data : ALU 결과(<code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>) or 데이터에서 읽은 값(<code>lw</code>)</p>
+</li>
+<li>
+<p>다음 PC 값 : PC + 4(<code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>, <code>lw</code>, <code>sw</code>) or Branch Target Address(<code>beq</code>)</p>
+</li>
+<li>
+<p>Write Register Number : R<sub>d</sub>(<code>add</code>, <code>sub</code>, <code>and</code>, <code>or</code>, <code>slt</code>) or R<sub>t</sub>(<code>lw</code>)</p>
+</li>
+</ol>
+<p><img src="../content/images/2019/01/computer-architecture-4-3-6.jpeg" alt="computer-architecture-4-3-6"></p>
+<p>   <code>beq</code>까지 전부 합치고 Control, ALU Control까지 추가한 그림이다. Control에 대해서는 다음 포스팅에서 다루겠지만, 간단하게 말하자면 opcode를 읽고 instruction의 종류에 따라 MUX에서 어떤 값을 선택할지, 메모리를 쓸 지 읽을지, 레지스터에 값을 저장할 지 등에 대한 선택을 한다고 생각하면 된다. ALU의 연산을 결정하는 것은 ALU Control이라는 Control을 한 번 더 거쳐서 결정하게 된다.</p>
+<p>  PC는 State Element이고, 나머지는 Combinational Element이기 때문에 전체 회로를 도는 데에는 1 Clock이 소요(CPI = 1)되어야 한다. 즉, 이 회로가 도는 속도에 따라 프로세서의 클럭 주기가 결정된다고 할 수 있다.</p>
+<!--Image Credit(Freepik) -->
+<a style="font-family:sans-serif; font-size: 15px; color: #26a8ed;
+    text-decoration: none; box-shadow: none;" href="https://www.freepik.com/free-photos-vectors/background">Header Image created by Freepik</a>
+                </div>
+            </section>
+
+
+            <footer class="post-full-footer">
+
+                    
+<section class="author-card">
+        <span class="avatar-wrapper"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</span>
+    <section class="author-card-content">
+        <h4 class="author-card-name"><a href="../author/wonjun/">Wonjun Shin</a></h4>
+            <p>Read <a href="../author/wonjun/">more posts</a> by this author.</p>
+    </section>
+</section>
+<div class="post-full-footer-right">
+    <a class="author-card-button" href="../author/wonjun/">Read More</a>
+</div>
+
+
+            </footer>
+
+            <section class="post-full-comments">
+                <div id="disqus_thread"></div>
+                <script>
+                    var disqus_config = function () {
+                        this.page.url = "http://identity16.github.io/4-3-building-a-datapath/";
+                        this.page.identifier = "ghost-5c35f6a52d91b6c511315479"
+                    };
+                    (function() {
+                        var d = document, s = d.createElement('script');
+                        s.src = 'https://identity16.disqus.com/embed.js';
+                        s.setAttribute('data-timestamp', + new Date());
+                        (d.head || d.body).appendChild(s);
+                    })();
+                </script>
+            </section>
+
+        </article>
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card" style="background-image: url(../content/images/size/w600/2019/01/computer-architecture-cover-1.jpg)">
+                    <header class="read-next-card-header">
+                        <small class="read-next-card-header-sitetitle">— Identity16 —</small>
+                        <h3 class="read-next-card-header-title"><a href="../tag/computer-architecture/">computer-architecture</a></h3>
+                    </header>
+                    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"></path></svg>
+</div>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li><a href="../5-3-the-basics-of-caches/">5.3 The Basics of Caches</a></li>
+                            <li><a href="../5-2-memory-technologies/">5.2 Memory Technologies</a></li>
+                            <li><a href="../5-1-introduction/">5.1 Introduction</a></li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="../tag/computer-architecture/">See all 18 posts →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-computer-architecture ">
+
+    <a class="post-card-image-link" href="../4-4-a-simple-implementation-scheme/">
+        <img class="post-card-image" src="../content/images/size/w600/2019/01/14920-NPZFIK.jpg" alt="4.4 A Simple Implementation Scheme">
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../4-4-a-simple-implementation-scheme/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">computer-architecture</span>
+                <h2 class="post-card-title">4.4 A Simple Implementation Scheme</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>A Simple Implementation Scheme ALU Control   MIPS의 ALU는 4 bit Control 입력에 따라 어떤 연산을 할 지 결정한다. ALU Control Function Instruction 예시 0000 AND and 0001 OR or 0010 add lw, sw,</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Wonjun Shin
+                    </div>
+
+                        <a href="../author/wonjun/" class="static-avatar author-profile-image"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</a>
+                </li>
+            </ul>
+
+            <span class="reading-time">6 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+                <article class="post-card post tag-computer-architecture ">
+
+    <a class="post-card-image-link" href="../4-2-logic-design-conventions/">
+        <img class="post-card-image" src="../content/images/size/w600/2019/01/circuit-158374_1280.png" alt="4.2 Logic Design Conventions">
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../4-2-logic-design-conventions/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">computer-architecture</span>
+                <h2 class="post-card-title">4.2 Logic Design Conventions</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>Logic Design Conventions   여기서는 논리 설계에 대한 기본적인 내용과 Clocking에 대해 설명한다. Logic Design Basics   MIPS의 datapath를 구현하는 데 필요한 Logic Element는 크게 두 가지로 나뉜다. Combinational Element 현재 주어진 입력 값에 따라</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Wonjun Shin
+                    </div>
+
+                        <a href="../author/wonjun/" class="static-avatar author-profile-image"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</a>
+                </li>
+            </ul>
+
+            <span class="reading-time">2 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+        </div>
+    </div>
+</aside>
+
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="../">
+                <img src="../content/images/size/w30/2019/01/identity16-favicon.png" alt="Identity16 icon">
+            <span>Identity16</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">—</span>
+    <div class="floating-header-title">4.3 Building a Datapath</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"></path>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=4.3%20Building%20a%20Datapath&amp;url=http://identity16.github.io/4-3-building-a-datapath/" onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"></path></svg>
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=http://identity16.github.io/4-3-building-a-datapath/" onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"></path></svg>
+        </a>
+    </div>
+    <progress id="reading-progress" class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="../">Identity16</a> © 2019</section>
+                <nav class="site-footer-nav">
+                    <a href="../">Latest Posts</a>
+                    <a href="https://www.facebook.com/ghost" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://twitter.com/tryghost" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="../assets/built/jquery.fitvids.js?v=96b63e0c50"></script>
+
+
+    <script type="text/javascript" async src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [["$", "$"], ["\\(", "\\)"]],
+            processEscapes: true
+        }
+    });
+</script>
+<script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('#reading-progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+
+});
+</script>
+
+
+    
+
+</body>

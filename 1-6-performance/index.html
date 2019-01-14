@@ -1,0 +1,569 @@
+﻿
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>1.6 Performance</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../assets/built/screen.css?v=96b63e0c50">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130578466-1"></script>
+    <script>
+        var host = window.location.hostname;
+        if(host !== "localhost")
+        {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-130578466-1');
+        }
+    </script>
+    <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-6003792608716119",
+            enable_page_level_ads: true
+        });
+    </script>
+
+    <link rel="shortcut icon" href="../favicon.png" type="image/png">
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="amp/index.html">
+    
+    <meta property="og:site_name" content="Identity16">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="1.6 Performance">
+    <meta property="og:description" content="Performance  아래 내용은 성능에 영향을 미치는 요소들과 어떤 점을 결정하는 지를 보여준다. Algorithm, Data Structure (+ Coding Skills) HLL 연산이 실행되는 횟수를 결정한다 다시 표현하자면, 프로그래머가 얼마나 효율적인 코드를 짜는지가 중요하다는 것이다. 이 때 효율적인 코드는 적은 연산으로 같은 결과를 내는 코드를 말한다. Programming Language, Compiler, Architecture HLL 연산 당 기계">
+    <meta property="og:url" content="http://identity16.github.io/1-6-performance/">
+    <meta property="og:image" content="http://identity16.github.io/content/images/2019/01/3276.jpg">
+    <meta property="article:published_time" content="2018-11-30T11:22:00.000Z">
+    <meta property="article:modified_time" content="2019-01-10T09:46:37.000Z">
+    <meta property="article:tag" content="computer-architecture">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="1.6 Performance">
+    <meta name="twitter:description" content="Performance  아래 내용은 성능에 영향을 미치는 요소들과 어떤 점을 결정하는 지를 보여준다. Algorithm, Data Structure (+ Coding Skills) HLL 연산이 실행되는 횟수를 결정한다 다시 표현하자면, 프로그래머가 얼마나 효율적인 코드를 짜는지가 중요하다는 것이다. 이 때 효율적인 코드는 적은 연산으로 같은 결과를 내는 코드를 말한다. Programming Language, Compiler, Architecture HLL 연산 당 기계">
+    <meta name="twitter:url" content="http://identity16.github.io/1-6-performance/">
+    <meta name="twitter:image" content="http://identity16.github.io/content/images/2019/01/3276.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Wonjun Shin">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="computer-architecture">
+    <meta name="twitter:site" content="@tryghost">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1200">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Identity16",
+        "logo": "http://identity16.github.io/content/images/2019/01/identity16-logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Wonjun Shin",
+        "url": "http://identity16.github.io/author/wonjun/",
+        "sameAs": [
+            "https://identity16.github.io"
+        ]
+    },
+    "headline": "1.6 Performance",
+    "url": "http://identity16.github.io/1-6-performance/",
+    "datePublished": "2018-11-30T11:22:00.000Z",
+    "dateModified": "2019-01-10T09:46:37.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://identity16.github.io/content/images/2019/01/3276.jpg",
+        "width": 1200,
+        "height": 1200
+    },
+    "keywords": "computer-architecture",
+    "description": "Performance  아래 내용은 성능에 영향을 미치는 요소들과 어떤 점을 결정하는 지를 보여준다. Algorithm, Data Structure (+ Coding Skills) HLL 연산이 실행되는 횟수를 결정한다 다시 표현하자면, 프로그래머가 얼마나 효율적인 코드를 짜는지가 중요하다는 것이다. 이 때 효율적인 코드는 적은 연산으로 같은 결과를 내는 코드를 말한다. Programming Language, Compiler, Architecture HLL 연산 당 기계",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://identity16.github.io/"
+    }
+}
+    </script>
+
+    <script src="../public/ghost-sdk.js?v=96b63e0c50"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "7a8d29fdecb1"
+});
+</script>
+    <meta name="generator" content="Ghost 2.9">
+    <link rel="alternate" type="application/rss+xml" title="Identity16" href="../rss/index.html">
+
+</head>
+<body class="post-template tag-computer-architecture">
+
+    <div class="site-wrapper">
+
+        
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+                <a class="site-nav-logo" href="../"><img src="../content/images/2019/01/identity16-logo.png" alt="Identity16"></a>
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="../">Home</a></li>
+</ul>
+
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+                <a class="social-link social-link-fb" href="https://www.facebook.com/ghost" title="Facebook" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"></path></svg>
+</a>
+                <a class="social-link social-link-tw" href="https://twitter.com/tryghost" title="Twitter" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"></path></svg>
+</a>
+        </div>
+            <a class="rss-button" href="https://feedly.com/i/subscription/feed/http://identity16.github.io/rss/" title="RSS" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><circle cx="6.18" cy="17.82" r="2.18"></circle><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"></path></svg>
+</a>
+    </div>
+</nav>
+    </div>
+</header>
+
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full post tag-computer-architecture ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="2018-11-30">30 November 2018</time>
+                        <span class="date-divider">/</span> <a href="../tag/computer-architecture/">computer-architecture</a>
+                </section>
+                <h1 class="post-full-title">1.6 Performance</h1>
+            </header>
+
+            <figure class="post-full-image">
+                <img src="../content/images/size/w2000/2019/01/3276.jpg" alt="1.6 Performance">
+            </figure>
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    <h1 id="performance">Performance</h1>
+<p> 아래 내용은 성능에 영향을 미치는 요소들과 어떤 점을 결정하는 지를 보여준다.</p>
+<h3 id="algorithmdatastructurecodingskills">Algorithm, Data Structure (+ Coding Skills)</h3>
+<ul>
+<li>HLL 연산이 실행되는 횟수를 결정한다</li>
+<li>다시 표현하자면, 프로그래머가 얼마나 효율적인 코드를 짜는지가 중요하다는 것이다. 이 때 효율적인 코드는 적은 연산으로 같은 결과를 내는 코드를 말한다.</li>
+</ul>
+<h3 id="programminglanguagecompilerarchitecture">Programming Language, Compiler, Architecture</h3>
+<ul>
+<li>HLL 연산 당 기계 명령어 수를 결정한다.</li>
+<li>프로그래밍 언어, 컴파일러, ISA 등에 따라 같은 HLL 연산이라도 다른 어셈블리어, 곧 기계 명령어로 변환될 수 있으므로 성능에도 영향을 미친다.</li>
+</ul>
+<h3 id="processorandmemorysystem">Processor and Memory System</h3>
+<ul>
+<li>명령어 실행 속도를 결정한다.</li>
+<li>같은 명령어를 실행한다고 하더라도 각각의 명령어를 실행하는 속도가 빠르면 전체적인 프로그램 실행 속도도 향상된다.</li>
+</ul>
+<h3 id="iosystemincludingos">I/O System(including OS)</h3>
+<ul>
+<li>I/O(입출력) 연산 속도를 결정한다.</li>
+</ul>
+<h2 id="definingperformance">Defining Performance</h2>
+<p> 성능을 판단하는 기준은 크게 Response Time과 Throughput 두 가지가 존재한다.</p>
+<h3 id="responsetime">Response Time</h3>
+<ul>
+<li>
+<p>= latency, execution time</p>
+</li>
+<li>
+<p><u>하나의 작업</u>(task/job)을 처리하는 데 <u>걸리는 시간</u></p>
+</li>
+<li>
+<p>빠른 프로세서</p>
+</li>
+</ul>
+<h3 id="throughput">Throughput</h3>
+<ul>
+<li>= bandwidth</li>
+<li><u>한 번에</u> 처리할 수 있는 <u>작업량</u></li>
+<li>=&gt; (<u>단위 시간</u> 당 처리한 작업)</li>
+<li>많은 프로세서</li>
+</ul>
+<p>  일단 Response Time에 집중한다!</p>
+<h3 id="performance">Performance</h3>
+<h4 id="">정의</h4>
+<p>$$ Performance_{X} = \frac{1}{Execution\ time_{x}} $$  </p>
+<ul>
+<li>성능은 <strong>실행 시간의 역수</strong>로 정의한다.</li>
+<li>즉, 실행 시간이 짧을 수록 프로그램 성능이 좋다고 할 수 있다.</li>
+</ul>
+<h2 id="measuringexecutiontime">Measuring Execution Time</h2>
+<p>  실행 시간에는 Elapsed Time과 CPU Time이 있다.]</p>
+<h3 id="elapsedtime">Elapsed Time</h3>
+<ul>
+<li>주어진 작업 외에 동시에 이루어지는 다른 작업(I/O, OS 작업, 대기 시간..)을 하는 시간까지 포함한 시간</li>
+<li>실제 체감 시간과 가깝지만, 순수하게 프로그램 간의 성능 비교에는 적합하지 않음</li>
+</ul>
+<h3 id="cputime">CPU Time</h3>
+<ul>
+<li>주어진 작업을 처리하는 데 걸린 시간(I/O, 다른 프로그램 실행 시간 포함 X)</li>
+<li>User CPU Time
+<ul>
+<li>주어진 프로그램의 코드를 실행하는 데에 걸리는 시간</li>
+<li>우리는 일단 여기에만 집중!</li>
+</ul>
+</li>
+<li>System CPU Time</li>
+</ul>
+<h2 id="cpuclocking">CPU Clocking</h2>
+<p><img src="../content/images/2019/01/computer-architecture-1-6-1.png" alt="computer-architecture-1-6-1"></p>
+<h3 id="clockfrequencyclockrate">Clock Frequency(Clock Rate)</h3>
+<ul>
+<li>초당 클럭 사이클 수</li>
+<li>Ex - $$ 4.0GHz = 4.0 * 10^{9} Hz $$</li>
+</ul>
+<h3 id="clockperiod">Clock Period</h3>
+<ul>
+<li>한 클럭 사이클에 걸리는 시간</li>
+<li>Ex - $$ 250ps = 250 * 10^{-12}s $$</li>
+</ul>
+<p>  한 클럭 사이클이 진행되는 동안 연산이 수행되고, 사이클이 끝나는 시점에 상태가 갱신된다. 한 사이클 내에 수행되지 못하는 명령어는 여러 사이클에 걸쳐 수행된다.</p>
+<h2 id="cputime">CPU Time</h2>
+<p>$$ \begin{eqnarray} CPU\ Time = (CPU\ Clock\ Cycles)\times{(Clock\ Cycle\ Time)} \\ = \frac{CPU\ Clock\ Cycles}{Clock\ Rate} \end{eqnarray} $$</p>
+<ul>
+<li>=&gt; 클럭 사이클 수가 적거나 Clock Rate가 높을 수록 CPU Time이 낮아진다(= 성능이 향상된다).</li>
+</ul>
+<h2 id="instructioncountcpiandperformance">Instruction Count, CPI, and Performance</h2>
+<h3 id="instructioncount">Instruction Count</h3>
+<ul>
+<li>말 그대로 명령어의 개수</li>
+<li>프로그램, ISA, 컴파일러에 의해 결정
+<ul>
+<li>같은 프로그램이라도 ISA가 다르면 명령어의 종류가 달라지므로 같은 연산이라도 다른 명령어 조합으로 수행하게 되기 때문에 Instruction Count에 영향을 줌</li>
+<li>같은 ISA, 같은 프로그램이라도 컴파일러의 알고리즘에 따라 다른 어셈블리어, 기계어가 나올 수 있기 때문에 그에 따른 Instruction Count 차이 또한 발생할 수 있음</li>
+</ul>
+</li>
+</ul>
+<h3 id="averagecpiclockcyclesperinstruction">Average CPI(Clock-Cycles Per Instruction)</h3>
+<ul>
+<li>
+<p>컴파일 된 프로그램의 각 명령어 클럭 수의 평균값</p>
+</li>
+<li>
+<p>Instruction mix에 영향을 받음</p>
+</li>
+</ul>
+<h3 id="cpuperformance">CPU Performance</h3>
+<p> CPI = Clock Cycles(프로그램 전체 클럭수) / Instruction Count(명령어 수) 이므로 Clock Cycles은 다음과 같다.</p>
+<p>$$ Clock\ Cycles = (Instruction\ Count)\times{(CPI)} $$ </p>
+<p> 아래 식은 앞의 주제에서 설명한 CPU Time이다.</p>
+<p>$$  \begin{eqnarray} CPU\ Time = (CPU\ Clock\ Cycles)\times{(Clock\ Cycle\ Time)} \\ = \frac{CPU\ Clock\ Cycles}{Clock\ Rate} \end{eqnarray} $$</p>
+<p> 여기서 Clock Cycle을 CPI와 관련된 식에 따라 변형하면 다음과 같다.</p>
+<p>$$  \begin{eqnarray} CPU\ Time = (Instruction\ Count)\times{(CPI)}\times{(Clock\ Cycle\ Time)} \\ = \frac{ (Instruction\ Count)\times{(CPI)}}{Clock\ Rate} \end{eqnarray} $$</p>
+<!--Image Credit(Freepik) -->
+<a style="font-family:sans-serif; font-size: 15px; color: #26a8ed;
+    text-decoration: none; box-shadow: none;" href="https://www.freepik.com/free-photos-vectors/background">Header Image created by Freepik</a>
+                </div>
+            </section>
+
+
+            <footer class="post-full-footer">
+
+                    
+<section class="author-card">
+        <span class="avatar-wrapper"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</span>
+    <section class="author-card-content">
+        <h4 class="author-card-name"><a href="../author/wonjun/">Wonjun Shin</a></h4>
+            <p>Read <a href="../author/wonjun/">more posts</a> by this author.</p>
+    </section>
+</section>
+<div class="post-full-footer-right">
+    <a class="author-card-button" href="../author/wonjun/">Read More</a>
+</div>
+
+
+            </footer>
+
+            <section class="post-full-comments">
+                <div id="disqus_thread"></div>
+                <script>
+                    var disqus_config = function () {
+                        this.page.url = "http://identity16.github.io/1-6-performance/";
+                        this.page.identifier = "ghost-5c35db284aa16cb3fc4ca5eb"
+                    };
+                    (function() {
+                        var d = document, s = d.createElement('script');
+                        s.src = 'https://identity16.disqus.com/embed.js';
+                        s.setAttribute('data-timestamp', + new Date());
+                        (d.head || d.body).appendChild(s);
+                    })();
+                </script>
+            </section>
+
+        </article>
+    </div>
+</main>
+
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+                <article class="read-next-card" style="background-image: url(../content/images/size/w600/2019/01/computer-architecture-cover-1.jpg)">
+                    <header class="read-next-card-header">
+                        <small class="read-next-card-header-sitetitle">— Identity16 —</small>
+                        <h3 class="read-next-card-header-title"><a href="../tag/computer-architecture/">computer-architecture</a></h3>
+                    </header>
+                    <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"></path></svg>
+</div>
+                    <div class="read-next-card-content">
+                        <ul>
+                            <li><a href="../5-3-the-basics-of-caches/">5.3 The Basics of Caches</a></li>
+                            <li><a href="../5-2-memory-technologies/">5.2 Memory Technologies</a></li>
+                            <li><a href="../5-1-introduction/">5.1 Introduction</a></li>
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="../tag/computer-architecture/">See all 18 posts →</a>
+                    </footer>
+                </article>
+
+                <article class="post-card post tag-computer-architecture ">
+
+    <a class="post-card-image-link" href="../1-10-fallacies-and-pitfalls/">
+        <img class="post-card-image" src="../content/images/size/w600/2019/01/ON40S10.jpg" alt="1.10 Fallacies and Pitfalls">
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../1-10-fallacies-and-pitfalls/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">computer-architecture</span>
+                <h2 class="post-card-title">1.10 Fallacies and Pitfalls</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>Fallacies and Pitfalls  Fallacies(오류) and Pitfalls(함정) 부분은 매 단원마다 있으며, 여기서는 흔히 발생하는 착각이나 실수가 무엇인지 이야기한다. Pitfall: Amdahl's Law 일부의 성능을 향상시켰을 때, 전체 성능이 같은 비율로 향상될 것이라는 생각</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Wonjun Shin
+                    </div>
+
+                        <a href="../author/wonjun/" class="static-avatar author-profile-image"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</a>
+                </li>
+            </ul>
+
+            <span class="reading-time">2 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+                <article class="post-card post tag-computer-architecture ">
+
+    <a class="post-card-image-link" href="../1-4-under-the-covers/">
+        <img class="post-card-image" src="../content/images/size/w600/2019/01/1-2.jpg" alt="1.4 Under the Covers">
+    </a>
+
+    <div class="post-card-content">
+
+        <a class="post-card-content-link" href="../1-4-under-the-covers/">
+
+            <header class="post-card-header">
+                    <span class="post-card-tags">computer-architecture</span>
+                <h2 class="post-card-title">1.4 Under the Covers</h2>
+            </header>
+
+            <section class="post-card-excerpt">
+                <p>Under the Covers  여기서는 컴퓨터의 기본적인 동작인 데이터 입력, 출력, 처리, 저장을 수행하는 컴퓨터의 주요 구성요소에 대해 알아봅니다. Components of a Computer  컴퓨터의 주요 구성요소에는 5가지가 있습니다. Datapath : 데이터에 대한 연산 수행 Control</p>
+            </section>
+
+        </a>
+
+        <footer class="post-card-meta">
+
+            <ul class="author-list">
+                <li class="author-list-item">
+
+                    <div class="author-name-tooltip">
+                        Wonjun Shin
+                    </div>
+
+                        <a href="../author/wonjun/" class="static-avatar author-profile-image"><svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M3.513 18.998C4.749 15.504 8.082 13 12 13s7.251 2.504 8.487 5.998C18.47 21.442 15.417 23 12 23s-6.47-1.558-8.487-4.002zM12 12c2.21 0 4-2.79 4-5s-1.79-4-4-4-4 1.79-4 4 1.79 5 4 5z" fill="#FFF"></path></g></svg>
+</a>
+                </li>
+            </ul>
+
+            <span class="reading-time">2 min read</span>
+
+        </footer>
+
+    </div>
+
+</article>
+
+        </div>
+    </div>
+</aside>
+
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="../">
+                <img src="../content/images/size/w30/2019/01/identity16-favicon.png" alt="Identity16 icon">
+            <span>Identity16</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">—</span>
+    <div class="floating-header-title">1.6 Performance</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"></path>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=1.6%20Performance&amp;url=http://identity16.github.io/1-6-performance/" onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"></path></svg>
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=http://identity16.github.io/1-6-performance/" onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"></path></svg>
+        </a>
+    </div>
+    <progress id="reading-progress" class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+
+
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="../">Identity16</a> © 2019</section>
+                <nav class="site-footer-nav">
+                    <a href="../">Latest Posts</a>
+                    <a href="https://www.facebook.com/ghost" target="_blank" rel="noopener">Facebook</a>
+                    <a href="https://twitter.com/tryghost" target="_blank" rel="noopener">Twitter</a>
+                    <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="../assets/built/jquery.fitvids.js?v=96b63e0c50"></script>
+
+
+    <script type="text/javascript" async src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [["$", "$"], ["\\(", "\\)"]],
+            processEscapes: true
+        }
+    });
+</script>
+<script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('#reading-progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+
+});
+</script>
+
+
+    
+
+</body>

@@ -1,0 +1,4 @@
+﻿User-agent: *
+Sitemap: http://identity16.github.io/sitemap.xml
+Disallow: /ghost/
+Disallow: /p/

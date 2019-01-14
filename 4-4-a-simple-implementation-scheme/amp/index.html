@@ -1,0 +1,348 @@
+﻿
+<head>
+    <meta charset="utf-8">
+
+    <title>4.4 A Simple Implementation Scheme</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <link rel="shortcut icon" href="../../favicon.png" type="image/png">
+    <link rel="canonical" href="../index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="Identity16">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="4.4 A Simple Implementation Scheme">
+    <meta property="og:description" content="A Simple Implementation Scheme ALU Control   MIPS의 ALU는 4 bit Control 입력에 따라 어떤 연산을 할 지 결정한다. ALU Control Function Instruction 예시 0000 AND and 0001 OR or 0010 add lw, sw, add 0110 subtract sub, beq 0111 set-on-less-than slt 1100 NOR  위 표는 4 bit Control 신호에 따른">
+    <meta property="og:url" content="http://identity16.github.io/4-4-a-simple-implementation-scheme/">
+    <meta property="og:image" content="http://identity16.github.io/content/images/2019/01/14920-NPZFIK.jpg">
+    <meta property="article:published_time" content="2018-12-09T07:45:00.000Z">
+    <meta property="article:modified_time" content="2019-01-10T10:09:22.000Z">
+    <meta property="article:tag" content="computer-architecture">
+    
+    <meta property="article:publisher" content="https://www.facebook.com/ghost">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="4.4 A Simple Implementation Scheme">
+    <meta name="twitter:description" content="A Simple Implementation Scheme ALU Control   MIPS의 ALU는 4 bit Control 입력에 따라 어떤 연산을 할 지 결정한다. ALU Control Function Instruction 예시 0000 AND and 0001 OR or 0010 add lw, sw, add 0110 subtract sub, beq 0111 set-on-less-than slt 1100 NOR  위 표는 4 bit Control 신호에 따른">
+    <meta name="twitter:url" content="http://identity16.github.io/4-4-a-simple-implementation-scheme/">
+    <meta name="twitter:image" content="http://identity16.github.io/content/images/2019/01/14920-NPZFIK.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Wonjun Shin">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="computer-architecture">
+    <meta name="twitter:site" content="@tryghost">
+    <meta property="og:image:width" content="1667">
+    <meta property="og:image:height" content="1667">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Identity16",
+        "logo": "http://identity16.github.io/content/images/2019/01/identity16-logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Wonjun Shin",
+        "url": "http://identity16.github.io/author/wonjun/",
+        "sameAs": [
+            "https://identity16.github.io"
+        ]
+    },
+    "headline": "4.4 A Simple Implementation Scheme",
+    "url": "http://identity16.github.io/4-4-a-simple-implementation-scheme/",
+    "datePublished": "2018-12-09T07:45:00.000Z",
+    "dateModified": "2019-01-10T10:09:22.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://identity16.github.io/content/images/2019/01/14920-NPZFIK.jpg",
+        "width": 1667,
+        "height": 1667
+    },
+    "keywords": "computer-architecture",
+    "description": "A Simple Implementation Scheme ALU Control   MIPS의 ALU는 4 bit Control 입력에 따라 어떤 연산을 할 지 결정한다. ALU Control Function Instruction 예시 0000 AND and 0001 OR or 0010 add lw, sw, add 0110 subtract sub, beq 0111 set-on-less-than slt 1100 NOR  위 표는 4 bit Control 신호에 따른",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://identity16.github.io/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 2.9">
+    <link rel="alternate" type="application/rss+xml" title="Identity16" href="../../rss/index.html">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,600,400">
+    <style amp-custom>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{margin:0.67em 0;font-size:2em}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{position:relative;vertical-align:baseline;font-size:75%;line-height:0}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}amp-img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{margin:0 2px;padding:0.35em 0.625em 0.75em;border:1px solid #c0c0c0}legend{padding:0;border:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}html{max-height:100%;height:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0)}body{max-height:100%;height:100%;color:#3a4145;background:#f4f8fb;letter-spacing:0.01rem;font-family:"Merriweather", serif;font-size:1.8rem;line-height:1.75em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"kern" 1;-moz-font-feature-settings:"kern" 1;-o-font-feature-settings:"kern" 1}::-moz-selection{background:#d6edff}::selection{background:#d6edff}h1,h2,h3,h4,h5,h6{margin:0 0 0.3em 0;color:#2e2e2e;font-family:"Open Sans", sans-serif;line-height:1.15em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-moz-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-o-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1}h1{text-indent:-2px;letter-spacing:-1px;font-size:2.6rem}h2{letter-spacing:0;font-size:2.4rem}h3{letter-spacing:-0.6px;font-size:2.1rem}h4{font-size:1.9rem}h5{font-size:1.8rem}h6{font-size:1.8rem}a{color:#4a4a4a}a:hover{color:#111}p,ul,ol,dl{margin:0 0 2.5rem 0;font-size:1.5rem;text-rendering:geometricPrecision;-webkit-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-moz-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-o-font-feature-settings:"liga" 1, "onum" 1, "kern" 1}ol,ul{padding-left:2em}ol ol,ul ul,ul ol,ol ul{margin:0 0 0.4em 0;padding-left:2em}dl dt{float:left;clear:left;overflow:hidden;margin-bottom:1em;width:180px;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-bottom:1em;margin-left:200px}li{margin:0.4em 0}li li{margin:0}hr{display:block;margin:1.75em 0;padding:0;height:1px;border:0;border-top:#efefef 1px solid}blockquote{box-sizing:border-box;margin:1.75em 0 1.75em 0;padding:0 0 0 1.75em;border-left:#4a4a4a 0.4em solid;-moz-box-sizing:border-box}blockquote p{margin:0.8em 0;font-style:italic}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;color:#ccc;font-size:0.9em}blockquote small:before{content:"\2014 \00A0"}blockquote cite{font-weight:700}blockquote cite a{font-weight:normal}mark{background-color:#fdffb6}code,tt{padding:1px 3px;border:#e3edf3 1px solid;background:#f7fafb;border-radius:2px;white-space:pre-wrap;font-family:Inconsolata, monospace, sans-serif;font-size:0.85em;font-feature-settings:"liga" 0;-webkit-font-feature-settings:"liga" 0;-moz-font-feature-settings:"liga" 0}pre{overflow:auto;box-sizing:border-box;margin:0 0 1.75em 0;padding:10px;width:100%;border:#e3edf3 1px solid;background:#f7fafb;border-radius:3px;white-space:pre;font-family:Inconsolata, monospace, sans-serif;font-size:0.9em;-moz-box-sizing:border-box}pre code,pre tt{padding:0;border:none;background:transparent;white-space:pre-wrap;font-size:inherit}kbd{display:inline-block;margin-bottom:0.4em;padding:1px 8px;border:#ccc 1px solid;background:#f4f4f4;border-radius:4px;box-shadow:0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 #fff inset;color:#666;text-shadow:#fff 0 1px 0;font-size:0.9em;font-weight:700}table{box-sizing:border-box;margin:1.75em 0;max-width:100%;width:100%;background-color:transparent;-moz-box-sizing:border-box}table th,table td{padding:8px;border-top:#efefef 1px solid;vertical-align:top;text-align:left;line-height:20px}table th{color:#000}table caption + thead tr:first-child th,table caption + thead tr:first-child td,table colgroup + thead tr:first-child th,table colgroup + thead tr:first-child td,table thead:first-child tr:first-child th,table thead:first-child tr:first-child td{border-top:0}table tbody + tbody{border-top:#efefef 2px solid}table table table{background-color:#fff}table tbody > tr:nth-child(odd) > td,table tbody > tr:nth-child(odd) > th{background-color:#f6f6f6}table.plain tbody > tr:nth-child(odd) > td,table.plain tbody > tr:nth-child(odd) > th{background:transparent}iframe,amp-iframe,.fluid-width-video-wrapper{display:block;margin:1.75em 0}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper amp-iframe{margin:0}textarea,select,input{margin:0 0 5px 0;padding:6px 9px;width:260px;outline:0;border:#e7eef2 1px solid;background:#fff;border-radius:4px;box-shadow:none;font-family:"Open Sans", sans-serif;font-size:1.6rem;line-height:1.4em;font-weight:100;-webkit-appearance:none}textarea{min-width:250px;min-height:80px;max-width:340px;width:100%;height:auto}input[type="text"]:focus,input[type="email"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="week"]:focus,input[type="time"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,textarea:focus{outline:none;outline-width:0;border:#bbc7cc 1px solid;background:#fff}select{width:270px;height:30px;line-height:30px}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.main-header{position:relative;display:table;overflow:hidden;box-sizing:border-box;width:100%;height:50px;background:#5ba4e5 no-repeat center center;background-size:cover;text-align:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box}.content{background:#fff;padding-top:15px}.blog-title,.content{margin:auto;max-width:600px}.blog-title a{display:block;padding-right:16px;padding-left:16px;height:50px;color:#fff;text-decoration:none;font-family:"Open Sans", sans-serif;font-size:16px;line-height:50px;font-weight:600}.post{position:relative;margin-top:0;margin-right:16px;margin-left:16px;padding-bottom:0;max-width:100%;border-bottom:#ebf2f6 1px solid;word-wrap:break-word;font-size:0.95em;line-height:1.65em}.post-header{margin-bottom:1rem}.post-title{margin-bottom:0}.post-title a{text-decoration:none}.post-meta{display:block;margin:3px 0 0 0;color:#9eabb3;font-family:"Open Sans", sans-serif;font-size:1.3rem;line-height:2.2rem}.post-meta a{color:#9eabb3;text-decoration:none}.post-meta a:hover{text-decoration:underline}.post-meta .author{margin:0;font-size:1.3rem;line-height:1.3em}.post-date{display:inline-block;text-transform:uppercase;white-space:nowrap;font-size:1.2rem;line-height:1.2em}.post-image{margin:0;padding-top:3rem;padding-bottom:30px;border-top:1px #E8E8E8 solid}.post-content amp-img,.post-content amp-anim{position:relative;left:50%;display:block;padding:0;min-width:0;max-width:112%;width:calc(100% + 32px);height:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%)}.footnotes{font-size:1.3rem;line-height:1.6em;font-style:italic}.footnotes li{margin:0.6rem 0}.footnotes p{margin:0}.footnotes p a:last-child{text-decoration:none}.site-footer{position:relative;margin:0 auto 20px auto;padding:1rem 15px;max-width:600px;color:rgba(0,0,0,0.5);font-family:"Open Sans", sans-serif;font-size:1.1rem;line-height:1.75em}.site-footer a{color:rgba(0,0,0,0.5);text-decoration:none;font-weight:bold}.site-footer a:hover{border-bottom:#bbc7cc 1px solid}.poweredby{display:block;float:right;width:45%;text-align:right}.copyright{display:block;float:left;width:45%}</style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    
+
+</head>
+
+<body class="amp-template">
+    <header class="main-header">
+        <nav class="blog-title">
+            <a href="../../">Identity16</a>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">4.4 A Simple Implementation Scheme</h1>
+                <section class="post-meta">
+                    <p class="author">by <a href="../../author/wonjun/">Wonjun Shin</a></p>
+                    <time class="post-date" datetime="2018-12-09">2018-12-09</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="http://identity16.github.io/content/images/2019/01/14920-NPZFIK.jpg" width="600" height="400" layout="responsive"></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <h1 id="asimpleimplementationscheme">A Simple Implementation Scheme</h1>
+<h2 id="alucontrol">ALU Control</h2>
+<p>  MIPS의 ALU는 4 bit Control 입력에 따라 어떤 연산을 할 지 결정한다.</p>
+<table>
+<thead>
+<tr>
+<th>ALU Control</th>
+<th>Function</th>
+<th>Instruction 예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0000</td>
+<td>AND</td>
+<td>and</td>
+</tr>
+<tr>
+<td>0001</td>
+<td>OR</td>
+<td>or</td>
+</tr>
+<tr>
+<td>0010</td>
+<td>add</td>
+<td>lw, sw, add</td>
+</tr>
+<tr>
+<td>0110</td>
+<td>subtract</td>
+<td>sub, beq</td>
+</tr>
+<tr>
+<td>0111</td>
+<td>set-on-less-than</td>
+<td>slt</td>
+</tr>
+<tr>
+<td>1100</td>
+<td>NOR</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p> 위 표는 4 bit Control 신호에 따른 ALU 연산과 어떤 Instruction에서 그 연산이 사용되는 지를 정리한 것이다. 이 4 bit 신호는 ALU Control이라는 유닛에서 결정한다.</p>
+<table>
+<thead>
+<tr>
+<th>opcode(Instruction)</th>
+<th>ALUOp</th>
+<th>Instruction 연산</th>
+<th>Funct field</th>
+<th>ALU 연산</th>
+<th>ALU Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LW</td>
+<td>00</td>
+<td>load word</td>
+<td>XXXXXX</td>
+<td>add</td>
+<td>0010</td>
+</tr>
+<tr>
+<td>SW</td>
+<td>00</td>
+<td>store word</td>
+<td>XXXXXX</td>
+<td>add</td>
+<td>0010</td>
+</tr>
+<tr>
+<td>Branch equal</td>
+<td>01</td>
+<td>branch equal</td>
+<td>XXXXXX</td>
+<td>subtract</td>
+<td>0110</td>
+</tr>
+<tr>
+<td>R-type</td>
+<td>10</td>
+<td>add</td>
+<td>100000</td>
+<td>add</td>
+<td>0010</td>
+</tr>
+<tr>
+<td>R-type</td>
+<td>10</td>
+<td>subtract</td>
+<td>100010</td>
+<td>subtract</td>
+<td>0110</td>
+</tr>
+<tr>
+<td>R-type</td>
+<td>10</td>
+<td>AND</td>
+<td>100100</td>
+<td>AND</td>
+<td>0000</td>
+</tr>
+<tr>
+<td>R-type</td>
+<td>10</td>
+<td>OR</td>
+<td>100101</td>
+<td>OR</td>
+<td>0001</td>
+</tr>
+<tr>
+<td>R-type</td>
+<td>10</td>
+<td>set on less than</td>
+<td>101010</td>
+<td>set on less than</td>
+<td>0111</td>
+</tr>
+</tbody>
+</table>
+<p>  ALU Control는 Control로부터 ALUOp라는 2 bit 신호를 입력으로 가지고 그 입력에 따라 위 표의 ALU Control에 해당하는 4 bit 값을 ALU에게 넘겨준다. Control에서는 opcode의 종류에 따라 ALUOp를 생성한다. 이 때 LW와 SW의 ALUOp가 00으로 동일한 것은 어차피 ALU에서는 같은 연산을 하므로 굳이 구분할 필요가 없기 때문이다. 그리고 R-type은 000000으로 opcode가 동일하므로 ALUOp로 10을 넘겨준 다음, ALU Control에서 funct 필드를 읽어 어떤 R-type 명령인지 해석한 다음 ALU 연산을 결정한다.</p>
+<p>  ALU Control 동작을 구현하는 회로를 작성하려면, 입력값인 ALUOp에 따른 4 bit 출력을 진리표로 만든 다음 카르노맵(요것도 논리회로에서..ㅎ)을 통해 각 출력 비트에 맞는 논리식을 얻을 수 있다. 그 식을 논리 게이트로 배치하면 ALU Control 회로 작성이 끝난다. 여기서는 굳이 그림이나 표로 표현하지는 않겠다.</p>
+<h2 id="control">Control</h2>
+<p>  이 부분은 ALU Control이 아니라 전체적인 동작을 제어하는 메인 Control에 대해 알아본다. 아래 이미지는 4.3에서 보여준 전체 회로이다.</p>
+<p></p>
+<p>  여기서 Control이라고 적혀있는 유닛이 우리가 다룰 Control이다. Instruction을 나타내는 비트 중에서 앞의 6 bit인 opcode를 입력으로 가진다. 많은 출력이 있는데 각 출력이 어디에 연결되는지를 주의깊게 보면서 하나씩 살펴보자.</p>
+<ul>
+<li>
+<p><strong>RegDst</strong> : Registers 유닛의 Write Register 입력을 결정하는 MUX에 연결되어 있다. 이 비트가 0이면 Write Register로 R<sub>t</sub>를 사용한다는 의미이며, 1이면 R<sub>d</sub>를 사용한다는 뜻이다.</p>
+</li>
+<li>
+<p><strong>RegWrite</strong> : Registers 유닛에 직접 연결되어 있다. 이 비트가 1이면 Write Register에 Write Data를 저장하는 동작을 수행하며, 0이면 저장하지 않는다.</p>
+</li>
+<li>
+<p><strong>ALUSrc</strong> : ALU의 두 입력 중 하나를 결정하는 MUX에 연결되어 있다. 이 비트가 0이면 R<sub>t</sub>의 값을 ALU의 피연산자로 사용하고, 1이면 즉시값을 Sign Extend한 값을 사용한다.</p>
+</li>
+<li>
+<p><strong>Branch</strong> : PC에 저장될 주소를 결정하는 MUX와 연관되어 있으며, 이 비트가 0이면 PC + 4가 PC에 저장된다. 그리고 Branch와 연결된 AND 게이트는 <code>beq</code>를 처리하는 데에 쓰이는데, ALU의 Zero가 1이고 Branch가 1이면 MUX에서 Branch 타겟 주소가 PC에 저장되고 그렇지 않으면 PC + 4가 PC에 저장된다.</p>
+</li>
+<li>
+<p><strong>MemRead</strong> : Data Memory에 연결되어 있으며, 이 비트가 1이면 입력 주소의 값을 메모리에서 읽어 오고 0이면 읽지 않는다.</p>
+</li>
+<li>
+<p><strong>MemWrite</strong> : Data Memory에 연결되어 있으며, 이 비트가 1이면 입력된 메모리 주소에 Write Data 입력값을 저장하고 0이면 저장하지 않는다.</p>
+</li>
+<li>
+<p><strong>MemtoReg</strong> : Registers의 Write Data를 결정하는 MUX에 연결되어 있으며, 이 비트가 1이면 메모리에서 읽은 값이 Write Data로 들어가고 0이면 ALU 연산 결과가 들어간다.</p>
+</li>
+<li>
+<p><strong>ALUOp</strong> : 위에서 설명함</p>
+</li>
+</ul>
+<p>  아래 표는 Instruction의 종류에 따라 Control 출력이 어떻게 되어야 하는지 나타낸 것이다. X는 상관 없음을 뜻한다. 왜 이렇게 되어야 하는지는 각 Instruction의 동작을 생각해본다면 쉽게 이해할 수 있을 것이다.</p>
+<table>
+<thead>
+<tr>
+<th>Instruction</th>
+<th>RegDst</th>
+<th>ALUSrc</th>
+<th>Memto- Reg</th>
+<th>Reg- Write</th>
+<th>Mem- Read</th>
+<th>Mem- Write</th>
+<th>Branch</th>
+<th>ALUOp1</th>
+<th>ALUOp0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R-format</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>lw</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>sw</td>
+<td>X</td>
+<td>1</td>
+<td>X</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>beq</td>
+<td>X</td>
+<td>0</td>
+<td>X</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="implementingjumps">Implementing Jumps</h2>
+<p>  드디어 마지막 Instruction인 <code>j</code> 명령어를 지금까지 만든 회로에 추가할 시간이다. <code>j</code>는 J-Format Instruction이라서 앞의 6 bit(opcode)를 제외한 나머지 26 bit는 주소값을 나타낸다. Branch 명령어와의 공통점은 주소가 Word Address이기 때문에 Shift Left 2를 하여서 맨 뒤에 00 비트를 추가해준다는 것이다. 그렇지만 차이점은 <code>beq</code>의 주소는 offset(현재 PC 값에서 더해서 진짜 주소 계산)이지만 <code>j</code>의 주소는 그 값이 곧 메모리 주소라는 것이다.</p>
+<p>  하지만 진짜 메모리 주소는 32 bit가 되어야 하는데, J-Format에서는 26 bit 값을 입력받고 Shift 한 것까지 생각하면 총 28 bit라서 4 bit가 부족하다. 그래서 <code>j</code>에서는 (PC + 4)에서 왼쪽 4 bit를 그대로 가져와 남은 4 bit를 채운다. 이러한 점 때문에 <code>j</code> 명령어는 Branch 명령보다는 더 넓은 범위를 오갈 수 있지만 (PC + 4)와 앞 4 bit가 같은 영역으로 점프 가능 범위가 제한된다.</p>
+<p>  이런 특성을 반영하여 <code>j</code>를 회로에 추가하면 아래 이미지와 같다.</p>
+<p></p>
+<p>  Shift를 하기 위한 유닛과 PC에 들어갈 수 있는 값이 하나 더 추가되었기 때문에 MUX 하나를 더 넣었고 이를 제어하기 위한 Jump가 Control에 추가되었다.</p>
+
+<a href="https://www.freepik.com/free-photos-vectors/background">Header Image created by Freepik</a>
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="../../">Identity16</a> © 2019</section>
+        <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+    </footer>
+</body>
